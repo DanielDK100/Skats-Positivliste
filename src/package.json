@@ -14,8 +14,6 @@
     "jsdom": "^21.1.0",
     "lodash": "^4.17.21",
     "pug": "^3.0.2",
-    "puppeteer": "^19.6.3",
-    "puppeteer-core": "^19.6.3",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
