@@ -8,6 +8,6 @@ RUN npm install
 
 COPY ./src .
 
-EXPOSE 8080
+EXPOSE 8181
 
 CMD [ "npm", "run", "build" ]
