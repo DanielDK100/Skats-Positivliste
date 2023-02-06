@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  node:
+    ports:
+      - 8080:8080
+    build:
+      context: .
+      dockerfile: dockerfiles/node.dockerfile
+    extra_hosts:
+      - "skats-positivliste.danielwinther.test:127.0.0.1"
+    volumes:
+      - ./src:/app
+      - /app/node_modules
