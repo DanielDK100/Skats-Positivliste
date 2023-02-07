@@ -16,6 +16,7 @@ html(lang='da')
 
               const table = new DataTable('#table', {
                 stateSave: true,
+                order: [[3, 'desc']],
                 language: {
                   url: 'https://cdn.datatables.net/plug-ins/1.13.2/i18n/da.json',
                   searchPlaceholder: "Søg efter ETF"
@@ -24,7 +25,7 @@ html(lang='da')
                 scrollCollapse: true,
                 lengthMenu: [
                     [25, 50, 100, -1],
-                    [25, 50, 100, 'All'],
+                    [25, 50, 100, 'Alle'],
                 ],
                 pageLength: 50,
                 dom: '<"top"f>rt<"bottom"pl><"clear">',
@@ -33,15 +34,16 @@ html(lang='da')
           }, 2500)
       });
 
-    title #{fileModified.getFullYear()} | Skats positivliste
-body(class="")
+    title #{fileModified.getFullYear()} | Skats positivliste | ETF'er
+body
   main(class='container')
     h1 Skats positivliste over ETF'er 
-      small(class='text-muted') fra 2023
+      small(class='text-muted') fra #{fileModified.getFullYear()}
     p Skat har offentliggjort en ny positivliste for de investeringsselskaber, herunder Exchange Traded Funds (ETF'er), som fra og med #{fileModified.getFullYear()} skal beskattes som aktieindkomst efter lagerprincippet, hvis man investerer for frie midler. Såfremt et investeringsselskab (herefter benævnt fond) ikke fremgår af listen, vil man i stedet blive beskattet som kapitalindkomst ligeledes efter lagerprincippet.
-    p Listen er sidst blevet downloadet fra 
+    p Listen er downloadet fra 
       a(href='https://skat.dk/data.aspx?oid=2244641', target='_blank') Skats hjemmeside
-      strong #{fileModified.toLocaleDateString('da-DK', { weekday:"long", year:"numeric", month:"long", day:"numeric"}) }. 
+      |  og er senest blevet opdateret 
+      strong  #{fileModified.toLocaleDateString('da-DK', { weekday:"long", year:"numeric", month:"long", day:"numeric"}) }. 
     p Herunder kan du sortere, søge og få et samlet overblik over listen.
  
     div(class='d-flex justify-content-center')
@@ -58,4 +60,8 @@ body(class="")
           each value in values
             tr
               each column in columns
-                td= value[column]
+                if column === 'ISIN-kode'
+                  td
+                    a(href='https://www.morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=' + value[column], target='_blank')= value[column]
+                else
+                  td= value[column]
