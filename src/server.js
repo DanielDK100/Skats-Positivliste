@@ -19,6 +19,7 @@ const app = express();
 
 cron.schedule("0 0 * * * *", function () {
   (async () => {
+    // Scrapes the href and date of the list from Skats website
     const response = await fetch(
       process.env.SKAT_URL + "data.aspx?oid=2244641"
     );
@@ -30,6 +31,8 @@ cron.schedule("0 0 * * * *", function () {
     let lastModified = dom.window.document.querySelector(
       "#toggleHdr4u-3 a:first-child"
     ).title;
+
+    // Saves the file on the server and sets the modified date accordingly
     https.get(process.env.SKAT_URL + href, (res) => {
       const fileStream = fs.createWriteStream(
         "./public/xlxs/skats-positivliste.xlxs"

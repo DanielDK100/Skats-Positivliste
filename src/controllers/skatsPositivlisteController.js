@@ -2,6 +2,9 @@ const _ = require("lodash");
 const fs = require("fs");
 const XLSX = require("xlsx");
 
+/* 
+Converts the XLSX file to JSON and displays the results
+*/
 const index = (req, res) => {
   const workbook = XLSX.readFile("./public/xlxs/skats-positivliste.xlxs");
   const json = XLSX.utils.sheet_to_json(
