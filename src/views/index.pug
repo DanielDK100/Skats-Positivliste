@@ -12,7 +12,7 @@ html(lang='da')
     script.
       document.addEventListener('DOMContentLoaded', function () {
           setTimeout(() => {
-              document.querySelector('#table').classList.remove("invisible");
+              document.querySelector('#table').classList.remove('invisible');
               const table = new DataTable('#table', {
                 stateSave: true,
                 order: [[3, 'desc']],
@@ -42,7 +42,7 @@ body
     p Listen downloades automatisk fra 
       a(href='https://skat.dk/data.aspx?oid=2244641', target='_blank') Skats hjemmeside
       |  hver nat og er af Skat senest blevet opdateret 
-      strong  #{fileModified.toLocaleDateString('da-DK', { weekday:"long", year:"numeric", month:"long", day:"numeric"}) }. 
+      strong  #{fileModified.toLocaleDateString('da-DK', { weekday:"long", year:"numeric", month:"long", day:"numeric"})}. 
     p Herunder kan du sortere, søge og få et samlet overblik over listen uden, at skulle manuelt downloade den opdaterede fil hver gang.
  
     div(class='d-flex justify-content-center')
