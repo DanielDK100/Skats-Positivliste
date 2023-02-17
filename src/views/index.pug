@@ -24,7 +24,7 @@ html(lang='da')
             order: [[3, 'desc']],
             language: {
               url: 'https://cdn.datatables.net/plug-ins/1.13.2/i18n/da.json',
-              searchPlaceholder: "Søg efter ETF/fond"
+              searchPlaceholder: 'Søg efter ETF/fond'
             },
             scrollY: '70vh',
             scrollCollapse: true,
@@ -35,7 +35,7 @@ html(lang='da')
             pageLength: 50,
             dom: '<"top"f>rt<"bottom"pl><"clear">',
           });
-          document.querySelector('#spinner').classList.add("d-none");
+          document.querySelector('#spinner').classList.add('d-none');
         }, 3000)
       });
 
@@ -44,23 +44,23 @@ body
   main(class='container pt-3')
     h1 Skats positivliste over ETF'er & fonde 
       small(class='text-muted') | #{fileModified.getFullYear()}
-    div(class='row')
-      div(class='col-7')
+    article(class='row')
+      section(class='col-7')
         p Skat har offentliggjort en ny positivliste for de investeringsselskaber, herunder exchange-traded funds (ETF'er), som fra og med #{fileModified.getFullYear()} skal beskattes som aktieindkomst efter lagerprincippet, hvis man investerer for frie midler. Såfremt et investeringsselskab (herefter benævnt fond) ikke fremgår af listen, vil man i stedet blive beskattet som kapitalindkomst ligeledes efter lagerprincippet.
-      div(class='col')
+      section(class='col')
         p Listen downloades automatisk fra 
-          a(href='https://skat.dk/data.aspx?oid=2244641', target='_blank') Skats hjemmeside
+          a(href='https://skat.dk/data.aspx?oid=2244641', target='_blank', data-bs-toggle='tooltip', data-bs-placement='bottom', title='Se under emnet "Liste over aktiebaserede investeringsselskaber"') Skats hjemmeside
           |  hver nat og er af Skat senest blevet opdateret 
-          strong  #{fileModified.toLocaleDateString('da-DK', { weekday:"long", year:"numeric", month:"long", day:"numeric"})}. 
+          strong  #{fileModified.toLocaleDateString('da-DK', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}. 
         p Herunder kan du sortere, søge og få et samlet overblik over listen uden, at skulle manuelt downloade den opdaterede fil hver gang.
  
     div(class='d-flex justify-content-center')
       div(class='spinner-border text-primary spinner-border-lg', style='width: 5rem; height: 5rem;', role='status', id='spinner')
         span(class='visually-hidden') Indlæser...
  
-    table(class='invisible table table-sm table-striped table-hover', id='table', style="width:100%")
+    table(class='invisible table table-sm table-striped table-hover', id='table', style='width:100%')
       caption
-        a(href='./xlxs/skats-positivliste.xlxs', data-bs-toggle="tooltip", data-bs-placement="top", title='Download Skats positivliste som Excel-fil', download) Skats positivliste
+        a(href='./xlxs/skats-positivliste.xlxs', data-bs-toggle='tooltip', data-bs-placement='top', title='Download Skats positivliste som Excel-fil', download) Skats positivliste
       thead
         tr
           each column in columns
@@ -71,6 +71,6 @@ body
               each column in columns
                 td
                   if column === 'ISIN-kode'
-                      a(href='https://www.morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=' + value[column], target='_blank')= value[column]
+                      a(href='https://morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=' + value[column], target='_blank', title='Morningstar.dk')= value[column]
                   else
                       = value[column]
