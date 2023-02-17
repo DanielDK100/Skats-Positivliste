@@ -6,11 +6,17 @@ html(lang='da')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.2/dist/css/bootstrap.min.css', rel='stylesheet', integrity='sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65', crossorigin='anonymous')
     script(src='https://code.jquery.com/jquery-3.5.1.min.js', defer)
+    script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js', defer)
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2/dist/js/bootstrap.bundle.min.js', integrity='sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4', crossorigin='anonymous' defer)
     script(src='https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js' defer)
     script(src='https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js' defer)
     script.
       document.addEventListener('DOMContentLoaded', function () {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
         setTimeout(() => {
           document.querySelector('#table').classList.remove('invisible');
           const table = new DataTable('#table', {
@@ -30,7 +36,7 @@ html(lang='da')
             dom: '<"top"f>rt<"bottom"pl><"clear">',
           });
           document.querySelector('#spinner').classList.add("d-none");
-        }, 2500)
+        }, 3000)
       });
 
     title #{fileModified.getFullYear()} | Skats positivliste | ETF'er & fonde
@@ -54,7 +60,7 @@ body
  
     table(class='invisible table table-sm table-striped table-hover', id='table', style="width:100%")
       caption
-        a(href='./xlxs/skats-positivliste.xlxs', title='Download Skats positivliste som Excel-fil', download) Skats positivliste
+        a(href='./xlxs/skats-positivliste.xlxs', data-bs-toggle="tooltip", data-bs-placement="top", title='Download Skats positivliste som Excel-fil', download) Skats positivliste
       thead
         tr
           each column in columns
@@ -63,8 +69,8 @@ body
           each value in values
             tr
               each column in columns
-                if column === 'ISIN-kode'
-                  td
-                    a(href='https://www.morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=' + value[column], target='_blank')= value[column]
-                else
-                  td= value[column]
+                td
+                  if column === 'ISIN-kode'
+                      a(href='https://www.morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=' + value[column], target='_blank')= value[column]
+                  else
+                      = value[column]
