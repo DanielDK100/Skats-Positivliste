@@ -11,26 +11,26 @@ html(lang='da')
     script(src='https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js' defer)
     script.
       document.addEventListener('DOMContentLoaded', function () {
-          setTimeout(() => {
-              document.querySelector('#table').classList.remove('invisible');
-              const table = new DataTable('#table', {
-                stateSave: true,
-                order: [[3, 'desc']],
-                language: {
-                  url: 'https://cdn.datatables.net/plug-ins/1.13.2/i18n/da.json',
-                  searchPlaceholder: "Søg efter ETF/fond"
-                },
-                scrollY: '70vh',
-                scrollCollapse: true,
-                lengthMenu: [
-                    [25, 50, 100, -1],
-                    [25, 50, 100, 'Alle'],
-                ],
-                pageLength: 50,
-                dom: '<"top"f>rt<"bottom"pl><"clear">',
-              });
-              document.querySelector('#spinner').classList.add("d-none");
-          }, 2500)
+        setTimeout(() => {
+          document.querySelector('#table').classList.remove('invisible');
+          const table = new DataTable('#table', {
+            stateSave: true,
+            order: [[3, 'desc']],
+            language: {
+              url: 'https://cdn.datatables.net/plug-ins/1.13.2/i18n/da.json',
+              searchPlaceholder: "Søg efter ETF/fond"
+            },
+            scrollY: '70vh',
+            scrollCollapse: true,
+            lengthMenu: [
+                [25, 50, 100, -1],
+                [25, 50, 100, 'Alle'],
+            ],
+            pageLength: 50,
+            dom: '<"top"f>rt<"bottom"pl><"clear">',
+          });
+          document.querySelector('#spinner').classList.add("d-none");
+        }, 2500)
       });
 
     title #{fileModified.getFullYear()} | Skats positivliste | ETF'er & fonde
@@ -38,20 +38,23 @@ body
   main(class='container')
     h1 Skats positivliste over ETF'er & fonde 
       small(class='text-muted') | #{fileModified.getFullYear()}
-    p Skat har offentliggjort en ny positivliste for de investeringsselskaber, herunder exchange-traded funds (ETF'er), som fra og med #{fileModified.getFullYear()} skal beskattes som aktieindkomst efter lagerprincippet, hvis man investerer for frie midler. Såfremt et investeringsselskab (herefter benævnt fond) ikke fremgår af listen, vil man i stedet blive beskattet som kapitalindkomst ligeledes efter lagerprincippet.
-    p Listen downloades automatisk fra 
-      a(href='https://skat.dk/data.aspx?oid=2244641', target='_blank') Skats hjemmeside
-      |  hver nat og er af Skat senest blevet opdateret 
-      strong  #{fileModified.toLocaleDateString('da-DK', { weekday:"long", year:"numeric", month:"long", day:"numeric"})}. 
-    p Herunder kan du sortere, søge og få et samlet overblik over listen uden, at skulle manuelt downloade den opdaterede fil hver gang.
+    div(class='row')
+      div(class='col-8')
+        p Skat har offentliggjort en ny positivliste for de investeringsselskaber, herunder exchange-traded funds (ETF'er), som fra og med #{fileModified.getFullYear()} skal beskattes som aktieindkomst efter lagerprincippet, hvis man investerer for frie midler. Såfremt et investeringsselskab (herefter benævnt fond) ikke fremgår af listen, vil man i stedet blive beskattet som kapitalindkomst ligeledes efter lagerprincippet.
+      div(class='col')
+        p Listen downloades automatisk fra 
+          a(href='https://skat.dk/data.aspx?oid=2244641', target='_blank') Skats hjemmeside
+          |  hver nat og er af Skat senest blevet opdateret 
+          strong  #{fileModified.toLocaleDateString('da-DK', { weekday:"long", year:"numeric", month:"long", day:"numeric"})}. 
+        p Herunder kan du sortere, søge og få et samlet overblik over listen uden, at skulle manuelt downloade den opdaterede fil hver gang.
  
     div(class='d-flex justify-content-center')
       div(class='spinner-border text-primary  spinner-border-lg', style='width: 5rem; height: 5rem;', role='status', id='spinner')
         span(class='visually-hidden') Indlæser...
  
     table(class='invisible table table-sm table-striped table-hover', id='table', style="width:100%")
-      caption 
-        a(href='./xlxs/skats-positivliste.xlxs', download) Skats positivliste
+      caption
+        a(href='./xlxs/skats-positivliste.xlxs', title='Download Skats positivliste som XLXS-fil', download) Skats positivliste
       thead
         tr
           each column in columns
