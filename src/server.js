@@ -12,7 +12,7 @@ const HOST = process.env.HOST;
 // App
 const app = express();
 
-cron.schedule("0 0 * * * *", function () {
+cron.schedule("0 0 * * * ", function () {
   handleSkatsPositivliste();
 });
 

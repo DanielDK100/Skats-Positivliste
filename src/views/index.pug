@@ -35,11 +35,11 @@ html(lang='da')
 
     title #{fileModified.getFullYear()} | Skats positivliste | ETF'er & fonde
 body
-  main(class='container')
+  main(class='container pt-3')
     h1 Skats positivliste over ETF'er & fonde 
       small(class='text-muted') | #{fileModified.getFullYear()}
     div(class='row')
-      div(class='col-8')
+      div(class='col-7')
         p Skat har offentliggjort en ny positivliste for de investeringsselskaber, herunder exchange-traded funds (ETF'er), som fra og med #{fileModified.getFullYear()} skal beskattes som aktieindkomst efter lagerprincippet, hvis man investerer for frie midler. Såfremt et investeringsselskab (herefter benævnt fond) ikke fremgår af listen, vil man i stedet blive beskattet som kapitalindkomst ligeledes efter lagerprincippet.
       div(class='col')
         p Listen downloades automatisk fra 
@@ -54,7 +54,7 @@ body
  
     table(class='invisible table table-sm table-striped table-hover', id='table', style="width:100%")
       caption
-        a(href='./xlxs/skats-positivliste.xlxs', title='Download Skats positivliste som XLXS-fil', download) Skats positivliste
+        a(href='./xlxs/skats-positivliste.xlxs', title='Download Skats positivliste som Excel-fil', download) Skats positivliste
       thead
         tr
           each column in columns
