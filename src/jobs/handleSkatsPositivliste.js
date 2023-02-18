@@ -33,7 +33,7 @@ module.exports = async function () {
         lastModified
       );
       fileStream.close();
-      console.info("Download finished: " + new Date().toLocaleString());
+      console.info("Download finished: " + new Date().toLocaleString("da-DK"));
     });
   });
 };
