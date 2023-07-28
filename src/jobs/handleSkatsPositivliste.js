@@ -2,31 +2,31 @@ const https = require("https");
 const fs = require("fs");
 const { JSDOM } = require("jsdom");
 
-module.exports = async function () {
-  // Scrapes the href and date of the list from Skats website
-  const response = await fetch(process.env.SKAT_URL + "data.aspx?oid=2244641");
-  const body = await response.text();
-  const dom = new JSDOM(body);
-  const element = dom.window.document.querySelector(
-    "#toggleHdr4u-3 a:first-child"
-  );
+async function fetchData(url) {
+  const response = await fetch(url);
+  return await response.text();
+}
 
-  // Saves the file on the server and sets the modified date accordingly
+function parseDOM(body) {
+  const dom = new JSDOM(body);
+  return dom.window.document.querySelector("#toggleHdr4u-3 a:first-child");
+}
+function formatDate(element) {
+  const regex = /listen (\d{2})(\d{2})(\d{4})/;
+  const match = element.match(regex);
+
+  const [, day, month, year] = match;
+  return new Date(`${year}-${month}-${day}`);
+}
+
+function downloadFile(element) {
   https.get(process.env.SKAT_URL + element.href, (response) => {
     const fileStream = fs.createWriteStream(
       "./public/xlxs/skats-positivliste.xlxs"
     );
     response.pipe(fileStream);
     fileStream.on("finish", () => {
-      const formatDate = element.title
-        .split("listen ")[1]
-        .split(".xlsx")[0]
-        .match(/^(\d{2})(\d{2})(\d{4})/);
-      const lastModified = new Date(
-        formatDate[3],
-        formatDate[2] - 1,
-        formatDate[1]
-      );
+      const lastModified = formatDate(element.title);
       fs.utimesSync(
         "./public/xlxs/skats-positivliste.xlxs",
         lastModified,
@@ -36,4 +36,10 @@ module.exports = async function () {
       console.info("Download finished: " + new Date().toLocaleString("da-DK"));
     });
   });
+}
+
+module.exports = async function () {
+  const data = await fetchData(process.env.SKAT_URL + "data.aspx?oid=2244641");
+  const element = parseDOM(data);
+  downloadFile(element);
 };
