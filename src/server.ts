@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Express } from "express";
 import cron from "node-cron";
 import dotenv from "dotenv";
 import skatsPositivlisteRoute from "./routes/skatsPositivlisteRoute";
@@ -13,7 +13,7 @@ const startCronJobs = () => {
 };
 
 const startServer = () => {
-  const app = express();
+  const app: Express = express();
 
   // Serve static files from the "public" directory
   app.use(express.static("public"));
