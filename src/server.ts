@@ -1,17 +1,15 @@
-"use strict";
-
-const express = require("express");
-const cron = require("node-cron");
-const dotenv = require("dotenv");
-const skatsPositivlisteRoute = require("./routes/skatsPositivlisteRoute.js");
-const handleSkatsPositivliste = require("./jobs/handleSkatsPositivliste.js");
+import express from "express";
+import cron from "node-cron";
+import dotenv from "dotenv";
+import skatsPositivlisteRoute from "./routes/skatsPositivlisteRoute";
+import handleSkatsPositivliste from "./jobs/handleSkatsPositivliste";
 
 // Load environment variables from .env file
 dotenv.config();
 
 const startCronJobs = () => {
   // Cron job to handle the skatsPositivliste
-  cron.schedule("0 0 * * * ", handleSkatsPositivliste);
+  cron.schedule("0 0 * * *", handleSkatsPositivliste);
 };
 
 const startServer = () => {
@@ -29,7 +27,7 @@ const startServer = () => {
   // Start the server
   const PORT = process.env.PORT || 3000;
   const HOST = process.env.HOST || "localhost";
-  app.listen(PORT, HOST, () => {
+  app.listen(PORT as number, HOST, () => {
     console.log(`Running on http://${HOST}:${PORT}`);
   });
 };
@@ -39,6 +37,6 @@ const init = async () => {
   startServer();
 };
 
-init().catch((error) => {
+init().catch((error: Error) => {
   console.error("Error during server initialization:", error);
 });

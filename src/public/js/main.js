@@ -14,7 +14,7 @@ function initializeTooltips() {
 
 function initializeDataTable() {
   setTimeout(() => {
-    document.querySelector("#table").classList.remove("invisible");
+    document.querySelector("#table")?.classList.remove("invisible");
     new DataTable("#table", {
       stateSave: true,
       retrieve: true,
@@ -31,6 +31,6 @@ function initializeDataTable() {
       ],
       pageLength: 50,
     });
-    document.querySelector("#spinner").classList.add("d-none");
+    document.querySelector("#spinner")?.classList.add("d-none");
   }, 3000);
 }

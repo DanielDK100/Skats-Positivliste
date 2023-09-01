@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: dockerfiles/node.dockerfile
     extra_hosts:
-      - "skats-positivliste.danielwinther.test:127.0.0.1"
+      - "domain.test:127.0.0.1"
     volumes:
       - ./src:/app
       - /app/node_modules
