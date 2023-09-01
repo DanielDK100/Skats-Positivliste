@@ -105,4 +105,4 @@ dist
 
 docker-compose.yml
 
-src/public/xlxs/
+src/public/xlsx/
