@@ -3,7 +3,6 @@ extends layouts/base.pug
 block scripts
   script(src='./js/main.js')
 
-
 block content
   main(class='container pt-3')
     h1 Skats positivliste over ETF'er & fonde 
@@ -34,7 +33,7 @@ block content
             tr
               each column in columns
                 td
-                  if column === 'ISIN-kode'
+                  if column === 'ISIN-kode' && /^[A-Z]{2}.{10}$/.test(value[column])
                       a(href='https://morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=' + value[column], target='_blank', title='Morningstar.dk')= value[column]
                   else
                       = value[column]

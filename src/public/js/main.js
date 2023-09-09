@@ -18,7 +18,7 @@ function initializeDataTable() {
     new DataTable("#table", {
       stateSave: true,
       retrieve: true,
-      order: [[3, "desc"]],
+      order: [[5, "desc"]],
       language: {
         url: "https://cdn.datatables.net/plug-ins/1.13.2/i18n/da.json",
         searchPlaceholder: "Søg efter ETF/fond",
