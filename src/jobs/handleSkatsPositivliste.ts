@@ -9,11 +9,11 @@ async function fetchData(url: string): Promise<string> {
 
 function fetchElement(body: string): HTMLAnchorElement | null {
   const dom = new JSDOM(body);
-  return dom.window.document.querySelector("a[title^='ABIS Listen']");
+  return dom.window.document.querySelector("a[title^='ABIS Listen' i]");
 }
 
 function formatDate(element: string): Date | null {
-  const regex = /listen (\d{2})(\d{2})(\d{4})/i;
+  const regex = /Listen (\d{2})(\d{2})(\d{4})/i;
   const match = element.match(regex);
 
   if (!match) {
@@ -24,12 +24,7 @@ function formatDate(element: string): Date | null {
   return new Date(`${year}-${month}-${day}`);
 }
 
-function downloadFile(
-  element: HTMLAnchorElement | null
-): HTMLAnchorElement | void {
-  if (!element) {
-    return;
-  }
+function downloadFile(element: HTMLAnchorElement): void {
   https.get(process.env.SKAT_URL + element.href, (response) => {
     const fileStream = fs.createWriteStream(
       "./public/xlsx/skats-positivliste.xlsx"
@@ -55,5 +50,8 @@ export default async function main(): Promise<void> {
   const data = await fetchData(process.env.SKAT_URL + "data.aspx?oid=2244641");
   const element = fetchElement(data);
 
+  if (!element) {
+    return;
+  }
   downloadFile(element);
 }
