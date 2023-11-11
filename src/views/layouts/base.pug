@@ -15,6 +15,13 @@ html(lang='da')
     script(src='https://www.googletagmanager.com/gtag/js?id=G-BL9LRG9CK6', defer)
     script(src='./js/gtag.js', defer)
     title #{fileModified.getFullYear()} | Skats positivliste | ETF'er & fonde
+    script(type="application/ld+json").
+      {
+        "@context": "https://schema.org",
+        "@type": "ListUpdate",
+        "datePublished": "#{fileModified.toISOString()}",
+        "dateModified": "#{fileModified.toISOString()}"
+      }
     block scripts
   body
     block content

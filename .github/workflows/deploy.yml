@@ -17,6 +17,9 @@ jobs:
           SOURCE: "src/"
           TARGET: ${{ secrets.REMOTE_TARGET }}
           EXCLUDE: ".env, node_modules/"
+          # script: |
+          #   cd ${{ secrets.REMOTE_TARGET }}
+          #   rm -rf .output
 
   post-deploy:
     needs: deploy
