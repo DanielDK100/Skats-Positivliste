@@ -1,16 +1,8 @@
 import express, { Express } from "express";
-import cron from "node-cron";
 import dotenv from "dotenv";
-import skatsPositivlisteRoute from "./routes/skatsPositivlisteRoute";
-import handleSkatsPositivliste from "./jobs/handleSkatsPositivliste";
-
-// Load environment variables from .env file
 dotenv.config();
-
-const startCronJobs = () => {
-  // Cron job to handle the skatsPositivliste
-  cron.schedule("0 0 * * *", handleSkatsPositivliste);
-};
+import skatsPositivlisteRoute from "./routes/skatsPositivlisteRoute";
+import { startCronJobs } from "./cron";
 
 const startServer = () => {
   const app: Express = express();

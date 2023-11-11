@@ -3,9 +3,8 @@ import XLSXService from "../services/XLSXService";
 
 async function index(req: Request, res: Response): Promise<void> {
   try {
-    const xlsxService = new XLSXService();
     const filePath = "./public/xlsx/skats-positivliste.xlsx";
-    const data = await xlsxService.getIndexData(filePath);
+    const data = await XLSXService.fetchXLSXFileData(filePath);
 
     res.render("index", data);
   } catch (error) {

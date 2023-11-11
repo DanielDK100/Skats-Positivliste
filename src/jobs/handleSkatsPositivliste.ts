@@ -7,13 +7,13 @@ async function fetchData(url: string): Promise<string> {
   return await response.text();
 }
 
-function parseDOM(body: string): HTMLAnchorElement | null {
+function fetchElement(body: string): HTMLAnchorElement | null {
   const dom = new JSDOM(body);
-  return dom.window.document.querySelector("#toggleHdr4u-3 a:first-child");
+  return dom.window.document.querySelector("a[title^='ABIS Listen']");
 }
 
 function formatDate(element: string): Date | null {
-  const regex = /listen (\d{2})(\d{2})(\d{4})/;
+  const regex = /listen (\d{2})(\d{2})(\d{4})/i;
   const match = element.match(regex);
 
   if (!match) {
@@ -24,7 +24,9 @@ function formatDate(element: string): Date | null {
   return new Date(`${year}-${month}-${day}`);
 }
 
-function downloadFile(element: HTMLAnchorElement | null) {
+function downloadFile(
+  element: HTMLAnchorElement | null
+): HTMLAnchorElement | void {
   if (!element) {
     return;
   }
@@ -51,6 +53,7 @@ function downloadFile(element: HTMLAnchorElement | null) {
 
 export default async function main(): Promise<void> {
   const data = await fetchData(process.env.SKAT_URL + "data.aspx?oid=2244641");
-  const element = parseDOM(data);
+  const element = fetchElement(data);
+
   downloadFile(element);
 }
