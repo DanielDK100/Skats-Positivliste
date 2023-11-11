@@ -13,7 +13,7 @@ function fetchElement(body: string): HTMLAnchorElement | null {
 }
 
 function formatDate(element: string): Date | null {
-  const regex = /Listen (\d{2})(\d{2})(\d{4})/i;
+  const regex = /listen (\d{2})(\d{2})(\d{4})/i;
   const match = element.match(regex);
 
   if (!match) {
