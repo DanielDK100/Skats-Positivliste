@@ -19,6 +19,7 @@ const startServer = () => {
   // Start the server
   const PORT = process.env.PORT || 3000;
   const HOST = process.env.HOST || "localhost";
+  app.locals.env = process.env;
   app.listen(PORT as number, HOST, () => {
     console.log(`Running on http://${HOST}:${PORT}`);
   });
