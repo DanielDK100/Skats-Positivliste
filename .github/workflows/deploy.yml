@@ -33,4 +33,5 @@ jobs:
             source ~/.nvm/nvm.sh
             cd ${{ secrets.REMOTE_TARGET }}
             npm install
+            npm run build
             pm2 restart all
