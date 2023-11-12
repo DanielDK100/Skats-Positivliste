@@ -10,4 +10,4 @@ COPY ./src .
 
 EXPOSE 8181
 
-CMD [ "npm", "run", "build" ]
+CMD [ "npm", "run", "dev" ]

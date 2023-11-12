@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "server.ts",
   "scripts": {
+    "build": "npx tsc",
     "watch:server": "nodemon server",
-    "build": "concurrently 'npm run watch:*'",
-    "start": "node server"
+    "dev": "concurrently 'npm run watch:*'",
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "concurrently": "^7.6.0",
