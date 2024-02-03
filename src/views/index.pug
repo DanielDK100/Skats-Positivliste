@@ -23,19 +23,6 @@ block content
       div(class='spinner-border text-primary mt-5', id='spinner')
         span(class='visually-hidden') Indlæser...
  
-    table(class='invisible table table-sm table-striped table-hover', id='table')
+    table(class='table table-sm table-striped table-hover', id='table')
       caption
         a(href='./xlxs/skats-positivliste.xlxs', data-bs-toggle='tooltip', data-bs-placement='top', title='Download Skats positivliste som Excel-fil', download) Skats positivliste
-      thead
-        tr
-          each column in columns
-            th= column
-      tbody
-          each value in values
-            tr
-              each column in columns
-                td
-                  if column === 'ISIN-kode' && /^[A-Z]{2}.{10}$/.test(value[column])
-                      a(href='https://morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=' + value[column], target='_blank', title='Morningstar.dk')= value[column]
-                  else
-                      = value[column]

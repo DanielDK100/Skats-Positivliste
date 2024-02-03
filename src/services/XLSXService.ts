@@ -1,8 +1,11 @@
 import * as fs from "fs/promises";
 import * as XLSX from "xlsx";
 
-interface XLSXFileInterface {
+export interface XLSXFileMetaDataInterface {
   fileModified: Date;
+}
+
+export interface XLSXFileInterface {
   columns: string[];
   values: any[];
 }
@@ -19,18 +22,23 @@ class XLSXService {
     return XLSX.utils.sheet_to_json(sheet);
   }
 
-  async getLastModifiedTime(filePath: string): Promise<Date> {
+  async getLastModifiedTime(
+    filePath: string
+  ): Promise<XLSXFileMetaDataInterface> {
     const fileStats = await fs.stat(filePath);
-    return fileStats.mtime;
+
+    const fileModified: XLSXFileMetaDataInterface = {
+      fileModified: fileStats.mtime,
+    };
+
+    return fileModified;
   }
 
   async fetchXLSXFileData(filePath: string): Promise<XLSXFileInterface> {
     const workbook = await this.readXLSXFile(filePath);
     const json = this.extractSheetData(workbook);
-    const fileModified = await this.getLastModifiedTime(filePath);
 
     const XLSXObject: XLSXFileInterface = {
-      fileModified,
       columns: Object.keys(json[0] || {}),
       values: json,
     };
