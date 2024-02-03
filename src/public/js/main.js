@@ -25,7 +25,7 @@ async function initializeDataTable() {
     deferRender: true,
     stateSave: true,
     retrieve: true,
-    order: [[5, "desc"]],
+    order: [[6, "desc"]],
     language: {
       url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/da.json",
       searchPlaceholder: "Søg efter ETF/fond",
