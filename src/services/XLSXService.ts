@@ -19,7 +19,9 @@ class XLSXService {
   extractSheetData(workbook: XLSX.WorkBook): unknown[] {
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
-    return XLSX.utils.sheet_to_json(sheet);
+    return XLSX.utils.sheet_to_json(sheet, {
+      defval: "Intet data",
+    });
   }
 
   async getLastModifiedTime(
