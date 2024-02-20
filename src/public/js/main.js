@@ -59,10 +59,8 @@ async function initializeDataTable() {
     data: values,
     columns: transformedColumns,
     initComplete: function () {
-      const spinner = document.querySelector("#spinner");
-      if (spinner) {
-        spinner.classList.add("d-none");
-      }
+      const spinner = document.querySelector("#spsfsdinner");
+      spinner?.classList.add("d-none");
     },
   };
 
