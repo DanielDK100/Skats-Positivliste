@@ -59,7 +59,7 @@ async function initializeDataTable() {
     data: values,
     columns: transformedColumns,
     initComplete: function () {
-      const spinner = document.querySelector("#spsfsdinner");
+      const spinner = document.querySelector("#spinner");
       spinner?.classList.add("d-none");
     },
   };
