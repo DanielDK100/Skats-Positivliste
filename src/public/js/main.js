@@ -17,6 +17,7 @@ function initializeTooltips() {
 async function initializeDataTable() {
   const { columns, values } = await fetchInvestmentCompaniesData();
   const transformedColumns = transformColumns(columns);
+  const currentYear = new Date().getFullYear();
 
   const dataTableOptions = {
     responsive: true,
@@ -27,7 +28,7 @@ async function initializeDataTable() {
         targets: -1,
         render: function (data, type, row, meta) {
           const badgeClass =
-            data === new Date().getFullYear() ? "bg-primary" : "bg-secondary";
+            data === currentYear ? "bg-primary" : "bg-secondary";
           return `<span class="badge ${badgeClass}">${data}</span>`;
         },
       },
