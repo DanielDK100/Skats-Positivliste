@@ -51,10 +51,6 @@ async function initializeDataTable() {
     },
     scrollY: "70vh",
     scrollCollapse: true,
-    lengthMenu: [
-      [25, 50, 100, -1],
-      [25, 50, 100, "Alle"],
-    ],
     pageLength: 50,
     data: values,
     columns: transformedColumns,
