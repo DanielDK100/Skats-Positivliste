@@ -11,11 +11,13 @@ block content
       small(class='text-muted') | #{fileModified.getFullYear()}
     article(class='row mb-3')
       section(class='col-7')
+        h3 Hvad er SKATs positivliste?
         p SKAT har offentliggjort en positivliste for de investeringsselskaber, herunder exchange-traded funds (ETF'er), som fra og med 
           strong #{fileModified.getFullYear()} 
           | skal beskattes som aktieindkomst efter lagerprincippet, hvis man investerer for frie midler. Såfremt et investeringsselskab (herefter benævnt fond) ikke fremgår af positivlisten, vil man i stedet blive beskattet som kapitalindkomst ligeledes efter lagerprincippet.
         p SKAT opdaterer med jævne mellemrum positivlisten over godkendte fonde i løbet af året.
       section(class='col')
+        h3 Få overblik over SKATs positivliste: Nem søgning og sortering
         p Positivlisten downloades automatisk fra 
           a(href=env.SKAT_URL + 'erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa', target='_blank', data-bs-toggle='tooltip', data-bs-placement='bottom', title='Se under emnet "Liste over aktiebaserede investeringsselskaber"') SKATs hjemmeside
           |  hver aften og er senest blevet downloadet
@@ -23,9 +25,9 @@ block content
         p Herunder kan du sortere, søge og få et samlet overblik over fondene i SKATs positivliste uden, at skulle manuelt downloade den opdaterede fil hver gang fra SKATs hjemmeside.
  
     div(class='d-flex justify-content-center')
-      div(class='spinner-border text-primary mt-5', id='spinner')
+      div(class='spinner-border text-primary mt-5', role="status", id='spinner')
         span(class='visually-hidden') Indlæser...
  
     table(class='table table-sm table-striped table-hover', id='table')
       caption
-        a(href='./xlsx/skats-positivliste.xlsx', data-bs-toggle='tooltip', data-bs-placement='top', title='Download SKATs positivliste som Excel-fil', download) SKATs positivliste
+        a(href='./xlsx/skats-positivliste.xlsx', data-bs-toggle='tooltip', data-bs-placement='top', title='Download SKATs positivliste som Excel-fil', download) SKATs positivliste for #{fileModified.getFullYear()} 
