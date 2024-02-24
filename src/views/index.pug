@@ -19,10 +19,10 @@ block content
       section(class='col')
         h3 Få overblik over SKATs positivliste: Nem søgning og sortering
         p Positivlisten downloades automatisk fra 
-          a(href=env.SKAT_URL + 'erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa', target='_blank', data-bs-toggle='tooltip', data-bs-placement='bottom', title='Se under emnet "Liste over aktiebaserede investeringsselskaber"') SKATs hjemmeside
-          |  hver aften og er senest blevet downloadet
-          strong  #{fileModified.toLocaleDateString('da-DK', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}. 
-        p Herunder kan du sortere, søge og få et samlet overblik over fondene i SKATs positivliste uden, at skulle manuelt downloade den opdaterede fil hver gang fra SKATs hjemmeside.
+          a(href=env.SKAT_URL + 'erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa', target='_blank', data-bs-toggle='tooltip', data-bs-html="true", data-bs-placement='bottom', title='Se under emnet "<em>Liste over aktiebaserede investeringsselskaber</em>"') SKATs hjemmeside
+          |  og er senest blevet downloadet
+          strong  #{fileModified.toLocaleString('da-DK', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'})}.
+        p Herunder kan du sortere, søge og få et samlet overblik over fondene på positivlisten uden, at skulle manuelt downloade den opdaterede fil hver gang fra SKATs hjemmeside.
  
     div(class='d-flex justify-content-center')
       div(class='spinner-border text-primary mt-5', role="status", id='spinner')
