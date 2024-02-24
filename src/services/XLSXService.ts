@@ -11,12 +11,12 @@ export interface XLSXFileInterface {
 }
 
 class XLSXService {
-  async readXLSXFile(filePath: string): Promise<XLSX.WorkBook> {
+  private async readXLSXFile(filePath: string): Promise<XLSX.WorkBook> {
     const workbookBuffer = await fs.readFile(filePath);
     return XLSX.read(workbookBuffer);
   }
 
-  extractSheetData(workbook: XLSX.WorkBook): unknown[] {
+  private extractSheetData(workbook: XLSX.WorkBook): unknown[] {
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
     return XLSX.utils.sheet_to_json(sheet, {
@@ -24,7 +24,7 @@ class XLSXService {
     });
   }
 
-  async getLastModifiedTime(
+  public async getLastModifiedTime(
     filePath: string
   ): Promise<XLSXFileMetaDataInterface> {
     const fileStats = await fs.stat(filePath);
@@ -36,7 +36,7 @@ class XLSXService {
     return fileModified;
   }
 
-  async fetchXLSXFileData(filePath: string): Promise<XLSXFileInterface> {
+  public async fetchXLSXFileData(filePath: string): Promise<XLSXFileInterface> {
     const workbook = await this.readXLSXFile(filePath);
     const json = this.extractSheetData(workbook);
 

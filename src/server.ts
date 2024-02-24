@@ -1,35 +1,42 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
-dotenv.config();
-import skatsPositivlisteRoute from "./routes/skatsPositivlisteRoute";
-import { startCronJobs } from "./cron";
+import SkatsPositivlisteRoutes from "./routes/SkatsPositivlisteRoutes";
+import CronScheduler from "./CronScheduler";
 
-const startServer = () => {
-  const app: Express = express();
+class Server {
+  private app: Express;
 
-  // Serve static files from the "public" directory
-  app.use(express.static("public"));
+  constructor() {
+    dotenv.config();
+    this.app = express();
 
-  // Set up view engine
-  app.set("view engine", "pug");
+    // Serve static files from the "public" directory
+    this.app.use(express.static("public"));
 
-  // Routes
-  app.use("/", skatsPositivlisteRoute);
+    // Set up view engine
+    this.app.set("view engine", "pug");
 
-  // Start the server
-  const PORT = process.env.PORT || 3000;
-  const HOST = process.env.HOST || "localhost";
-  app.locals.env = process.env;
-  app.listen(PORT as number, HOST, () => {
-    console.log(`Running on http://${HOST}:${PORT}`);
-  });
-};
+    // Routes
+    this.app.use("/", SkatsPositivlisteRoutes);
+  }
 
-const init = async () => {
-  startCronJobs();
-  startServer();
-};
+  private startServer(): void {
+    const PORT = process.env.PORT || 3000;
+    const HOST = process.env.HOST || "localhost";
+    this.app.locals.env = process.env;
 
-init().catch((error: Error) => {
-  console.error("Error during server initialization:", error);
+    this.app.listen(PORT as number, HOST, () => {
+      console.log(`Running on http://${HOST}:${PORT}`);
+    });
+  }
+
+  public async init(): Promise<void> {
+    new CronScheduler().startCronJobs();
+    this.startServer();
+  }
+}
+
+const server = new Server();
+server.init().catch((error: Error) => {
+  console.error("Error during server initialization: ", error);
 });
