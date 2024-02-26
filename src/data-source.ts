@@ -1,9 +1,8 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import dotenv from "dotenv";
 import { RegistrationEntity } from "./entity/RegistrationEntity";
-import { config } from "dotenv";
-import { resolve } from "path";
-config({ path: resolve(__dirname, ".env") });
+dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: "mariadb",
