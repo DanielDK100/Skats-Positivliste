@@ -12,3 +12,26 @@ services:
     volumes:
       - ./src:/app
       - /app/node_modules
+    networks:
+      - node
+
+  mariadb_skats_positivliste:
+    image: "mariadb:lts"
+    ports:
+      - "3306:3306"
+    env_file:
+      - ./env/mariadb-skats-positivliste.env
+    volumes:
+      - db_skats_positivliste:/var/lib/mysql
+    networks:
+      - database
+      - node
+
+volumes:
+  db_skats_positivliste:
+
+networks:
+  node:
+    name: "node_network"
+  database:
+    name: "database_network"
