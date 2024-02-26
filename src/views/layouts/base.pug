@@ -16,15 +16,15 @@ html(lang='da')
 
     script(src='https://www.googletagmanager.com/gtag/js?id=G-BL9LRG9CK6', defer)
     script(src='./js/gtag.js', defer)
-    title #{fileModified.getFullYear()} | SKATs positivliste | ETF'er & fonde
+    title #{fileModified.fileModified.getFullYear()} | SKATs positivliste | ETF'er & fonde
     script(type="application/ld+json").
       {
         "@context": "https://schema.org",
         "@type": "Dataset",
         "name": "SKATs positivliste",
         "description": "Viser SKATs positivliste over ETF'er & fonde, der beskattes som aktieindkomst",
-        "datePublished": "#{fileModified.toISOString()}",
-        "dateModified": "#{fileModified.toISOString()}"
+        "datePublished": "#{fileModified.fileModified.toISOString()}",
+        "dateModified": "#{fileModified.fileModified.toISOString()}"
       }
     block scripts
   body

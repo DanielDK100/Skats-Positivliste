@@ -8,12 +8,12 @@ block content
 
   main(class='container py-3')
     h1 SKATs positivliste over ETF'er & fonde 
-      small(class='text-muted') | #{fileModified.getFullYear()}
-    article(class='row mb-3')
+      small(class='text-muted') | #{fileModified.fileModified.getFullYear()}
+    article(class='row mb-4')
       section(class='col-7')
         h3 Hvad er SKATs positivliste?
         p SKAT har offentliggjort en positivliste for de investeringsselskaber, herunder exchange-traded funds (ETF'er), som fra og med 
-          strong #{fileModified.getFullYear()} 
+          strong #{fileModified.fileModified.getFullYear()} 
           | skal beskattes som aktieindkomst efter lagerprincippet, hvis man investerer for frie midler. Såfremt et investeringsselskab (herefter benævnt fond) ikke fremgår af positivlisten, vil man i stedet blive beskattet som kapitalindkomst ligeledes efter lagerprincippet.
         p SKAT opdaterer med jævne mellemrum positivlisten over godkendte fonde i løbet af året.
       section(class='col')
@@ -21,8 +21,30 @@ block content
         p Positivlisten downloades automatisk fra 
           a(href=env.SKAT_URL + 'erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa', target='_blank', data-bs-toggle='tooltip', data-bs-html="true", data-bs-placement='bottom', title='Se under emnet "<em>Liste over aktiebaserede investeringsselskaber</em>"') SKATs hjemmeside
           |  og er senest blevet downloadet
-          strong  #{fileModified.toLocaleString('da-DK', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'})}.
+          strong  #{fileModified.fileModified.toLocaleString('da-DK', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'})}.
         p Herunder kan du sortere, søge og få et samlet overblik over fondene på positivlisten uden, at skulle manuelt downloade den opdaterede fil hver gang fra SKATs hjemmeside.
+
+    section(class='mb-3')
+      h4 Registrer din email og bliv notificeret ved opdatering af SKATS positivliste
+      p Vil du sikre dig, at bliver notificeret når en bestemt fond tilføjes til positivlisten? Herunder kan du registrere din email samt en given fonds 
+        a(href='https://da.wikipedia.org/wiki/International_Securities_Identification_Number', target='_blank', data-bs-toggle='tooltip', data-bs-placement='top', title='ISIN-koden angiver hvor det underliggende aktiv er noteret. Det er samtidig en unik kode, som identificerer og skelner de mange noterede aktiver fra hinanden') ISIN-kode (også kaldet fondskode)
+        |  og blive notificeret, såfremt SKAT opdaterer deres positivliste med den angivne ISIN-kode. ISIN-koden kan du typisk finde på din foretrukne investeringsplatform.
+      form(class="mb-3", action='/register', method='POST')
+        div(class="row")
+          div(class="col-4")
+            input(oninput="this.value = this.value.toUpperCase()", type='text', pattern="^[A-Z]{2}.{10}", title="Skal bestå af landekode efterfulgt af 10 tegn" name='isin' class='form-control mb-2', placeholder='Indtast ISIN-kode' required)
+          div(class="col")
+            input(type='email', name='email' class='form-control mb-2', placeholder='Indtast email' required)
+        p 
+          small
+            em Bemærk at du kun notificeres en gang pr. registrering, hvis SKAT tilføjer ISIN-koden til positivlisten. Fjernes ISIN-koden af SKAT på et senere tidspunkt, skal du selv holde dig ajourført med positivlisten nedenfor - eller registrere din email igen.
+        button(type='submit', class='btn btn-primary') Registrer email
+
+      if message 
+        div(class="alert alert-dismissible fade show alert-" + alertType, role='alert')
+          button(type='button', class='btn-close', data-bs-dismiss='alert', aria-label='Close')
+          | #{message}
+
  
     div(class='d-flex justify-content-center')
       div(class='spinner-border text-primary mt-5', role="status", id='spinner')
@@ -30,4 +52,4 @@ block content
  
     table(class='table table-sm table-striped table-hover', id='table')
       caption
-        a(href='./xlsx/skats-positivliste.xlsx', data-bs-toggle='tooltip', data-bs-placement='top', title='Download SKATs positivliste som Excel-fil', download) SKATs positivliste for #{fileModified.getFullYear()} 
+        a(href='./xlsx/skats-positivliste.xlsx', data-bs-toggle='tooltip', data-bs-placement='top', title='Download SKATs positivliste som Excel-fil', download) SKATs positivliste for #{fileModified.fileModified.getFullYear()} 

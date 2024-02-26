@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import SkatsPositivlisteController from "../controllers/SkatsPositivlisteController";
 
 class SkatsPositivlisteRoutes {
@@ -17,6 +17,9 @@ class SkatsPositivlisteRoutes {
         this.skatsPositivlisteController
       )
     );
+    router.post("/register", (req: Request, res: Response) => {
+      this.skatsPositivlisteController.register(req, res);
+    });
     router.get(
       "/investment-companies",
       this.skatsPositivlisteController.investmentCompanies.bind(

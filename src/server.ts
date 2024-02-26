@@ -2,6 +2,8 @@ import express, { Express } from "express";
 import dotenv from "dotenv";
 import SkatsPositivlisteRoutes from "./routes/SkatsPositivlisteRoutes";
 import CronScheduler from "./CronScheduler";
+import { AppDataSource } from "./data-source";
+import bodyParser from "body-parser";
 
 class Server {
   private app: Express;
@@ -9,6 +11,8 @@ class Server {
   constructor() {
     dotenv.config();
     this.app = express();
+
+    this.app.use(bodyParser.urlencoded({ extended: true }));
 
     // Serve static files from the "public" directory
     this.app.use(express.static("public"));
@@ -31,6 +35,7 @@ class Server {
   }
 
   public async init(): Promise<void> {
+    await AppDataSource.initialize();
     new CronScheduler().startCronJobs();
     this.startServer();
   }
