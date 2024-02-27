@@ -27,9 +27,9 @@ block content
     section(class='mb-3')
       h4 Registrer din email og bliv notificeret ved opdatering af SKATS positivliste
       p Vil du sikre dig, at bliver notificeret når en bestemt fond tilføjes til positivlisten? Herunder kan du registrere din email samt en given fonds 
-        a(href='https://da.wikipedia.org/wiki/International_Securities_Identification_Number', target='_blank', data-bs-toggle='tooltip', data-bs-placement='top', title='ISIN-koden angiver hvor det underliggende aktiv er noteret. Det er samtidig en unik kode, som identificerer og skelner de mange noterede aktiver fra hinanden') ISIN-kode (også kaldet fondskode)
+        a(href='https://da.wikipedia.org/wiki/International_Securities_Identification_Number', target='_blank', data-bs-toggle='tooltip', data-bs-placement='top', title='ISIN-koden angiver hvor det underliggende aktiv er noteret. Det er samtidig en unik kode, som skelner de mange noterede aktiver fra hinanden') ISIN-kode (også kaldet fondskode)
         |  og blive notificeret, såfremt SKAT opdaterer deres positivliste med den angivne ISIN-kode. ISIN-koden kan du typisk finde på din foretrukne investeringsplatform.
-      form(class="mb-3", action='/register', method='POST')
+      form(onsubmit="gtag('event', 'form_submit', {'event_category': 'registration', 'event_label': 'isin_email'})", class="mb-3", action='/register', method='POST')
         div(class="row")
           div(class="col col-md-4")
             input(oninput="this.value = this.value.toUpperCase()", type='text', pattern="^[A-Z]{2}.{10}", title="Skal bestå af landekode efterfulgt af 10 tegn" name='isin' class='form-control mb-2', placeholder='Indtast ISIN-kode' required)
@@ -37,7 +37,7 @@ block content
             input(type='email', name='email' class='form-control mb-2', placeholder='Indtast email' required)
         p 
           small
-            em Bemærk at du kun notificeres en gang pr. registrering, hvis SKAT tilføjer ISIN-koden til positivlisten. Fjernes ISIN-koden af SKAT på et senere tidspunkt, skal du selv holde dig ajourført med positivlisten nedenfor - eller registrere din email igen.
+            em Bemærk at du kun notificeres en gang pr. registrering, hvis SKAT tilføjer ISIN-koden til positivlisten, hvorefter den indtastede email tages af mailinglisten. Fjernes fondens ISIN-kode af SKAT på et senere tidspunkt, skal du derfor selv holde dig ajourført med positivlisten nedenfor - eller registrere din email på ny.
         button(type='submit', class='btn btn-primary col-12 col-md-auto') Registrer email
 
       if message 

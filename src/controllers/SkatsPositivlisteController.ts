@@ -4,10 +4,11 @@ import XLSXService, {
 } from "../services/XLSXService";
 import { AppDataSource } from "../data-source";
 import { RegistrationEntity } from "../entities/RegistrationEntity";
+import { Repository } from "typeorm";
 
 export default class SkatsPositivlisteController {
   private filePath: string = "./public/xlsx/skats-positivliste.xlsx";
-  private registrationRepository =
+  private registrationRepository: Repository<RegistrationEntity> =
     AppDataSource.getRepository(RegistrationEntity);
   private fileModified: XLSXFileMetaDataInterface;
 
