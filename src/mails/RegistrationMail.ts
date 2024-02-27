@@ -1,7 +1,8 @@
 import * as nodemailer from "nodemailer";
 import { RegistrationEntity } from "../entities/RegistrationEntity";
+import MailInterface from "./MailInterface";
 
-export default class RegistrationMail {
+export default class RegistrationMail implements MailInterface {
   private transporter: nodemailer.Transporter;
   private registration: RegistrationEntity;
 
@@ -19,7 +20,7 @@ export default class RegistrationMail {
     this.registration = registration;
   }
 
-  public sendMail(): void {
+  public send(): void {
     this.transporter.sendMail(
       {
         from: process.env.MAIL_FROM,
@@ -39,7 +40,7 @@ Mvh. ${process.env.SKATS_POSITIVLISTE_URL}
         if (error) {
           console.error("Error sending email: ", error);
         } else {
-          console.log("Email sent: ", info.response);
+          console.info("Email sent: ", info.response);
         }
       }
     );

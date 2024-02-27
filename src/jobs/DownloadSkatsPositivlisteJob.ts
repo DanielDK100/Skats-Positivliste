@@ -1,8 +1,9 @@
 import * as https from "https";
 import * as fs from "fs";
 import { JSDOM } from "jsdom";
+import JobInterface from "./JobInterface";
 
-class DownloadSkatsPositivlisteJob {
+class DownloadSkatsPositivlisteJob implements JobInterface {
   private async fetchData(url: string): Promise<string> {
     const response = await fetch(url);
 
