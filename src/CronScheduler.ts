@@ -9,7 +9,7 @@ export default class CronScheduler {
       await DownloadSkatsPositivlisteJob.main();
     });
 
-    cron.schedule("0 18 * * *", async () => {
+    cron.schedule("* * * * *", async () => {
       await SentRegistrationNotificationJob.main();
     });
 
