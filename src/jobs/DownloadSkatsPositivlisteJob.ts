@@ -2,7 +2,7 @@ import * as https from "https";
 import * as fs from "fs";
 import { JSDOM } from "jsdom";
 
-class SkatsPositivlisteJob {
+class DownloadSkatsPositivlisteJob {
   private async fetchData(url: string): Promise<string> {
     const response = await fetch(url);
 
@@ -49,4 +49,4 @@ class SkatsPositivlisteJob {
     this.downloadFile(element);
   }
 }
-export default new SkatsPositivlisteJob();
+export default new DownloadSkatsPositivlisteJob();

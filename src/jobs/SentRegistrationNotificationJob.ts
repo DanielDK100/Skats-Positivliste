@@ -1,5 +1,5 @@
 import { AppDataSource } from "../data-source";
-import { RegistrationEntity } from "../entity/RegistrationEntity";
+import { RegistrationEntity } from "../entities/RegistrationEntity";
 import XLSXService from "../services/XLSXService";
 import RegistrationMail from "../mails/RegistrationMail";
 
@@ -8,10 +8,10 @@ class SentRegistrationNotificationJob {
   private registrationRepository =
     AppDataSource.getRepository(RegistrationEntity);
 
-  private async sentRegistrationNotification(): Promise<void> {
-    const XLSXData = await XLSXService.fetchXLSXFileData(this.filePath);
+  private async sendRegistrationNotification(): Promise<void> {
+    const xlsxData = await XLSXService.fetchXLSXFileData(this.filePath);
 
-    for (const row of XLSXData.values) {
+    for (const row of xlsxData.values) {
       const registrationsNotSent = await this.registrationRepository.find({
         where: {
           isin: row.ISIN,
@@ -20,7 +20,7 @@ class SentRegistrationNotificationJob {
       });
 
       for (const registration of registrationsNotSent) {
-        new RegistrationMail().sendMail(registration);
+        new RegistrationMail(registration).sendMail();
 
         await this.registrationRepository.save({
           ...registration,
@@ -32,7 +32,7 @@ class SentRegistrationNotificationJob {
   }
 
   public async main(): Promise<void> {
-    await this.sentRegistrationNotification();
+    await this.sendRegistrationNotification();
   }
 }
 export default new SentRegistrationNotificationJob();

@@ -7,7 +7,7 @@ import {
   DeleteDateColumn,
 } from "typeorm";
 
-@Entity()
+@Entity("registration")
 export class RegistrationEntity {
   @PrimaryGeneratedColumn()
   id: number;

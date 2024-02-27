@@ -3,7 +3,7 @@ import XLSXService, {
   XLSXFileMetaDataInterface,
 } from "../services/XLSXService";
 import { AppDataSource } from "../data-source";
-import { RegistrationEntity } from "../entity/RegistrationEntity";
+import { RegistrationEntity } from "../entities/RegistrationEntity";
 
 export default class SkatsPositivlisteController {
   private filePath: string = "./public/xlsx/skats-positivliste.xlsx";

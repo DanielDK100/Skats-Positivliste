@@ -1,12 +1,12 @@
 import cron from "node-cron";
-import SkatsPositivlisteJob from "./jobs/SkatsPositivlisteJob";
+import DownloadSkatsPositivlisteJob from "./jobs/DownloadSkatsPositivlisteJob";
 import SentRegistrationNotificationJob from "./jobs/SentRegistrationNotificationJob";
 
 export default class CronScheduler {
   public startCronJobs(): void {
     // Scheduled cron jobs
     cron.schedule("0 21 * * *", async () => {
-      await SkatsPositivlisteJob.main();
+      await DownloadSkatsPositivlisteJob.main();
     });
 
     cron.schedule("0 18 * * *", async () => {
@@ -14,11 +14,11 @@ export default class CronScheduler {
     });
 
     // Use below function to debug cron jobs
-    //this.debugCronJobs();
+    this.debugCronJobs();
   }
 
   private async debugCronJobs(): Promise<void> {
-    await SkatsPositivlisteJob.main();
+    await DownloadSkatsPositivlisteJob.main();
     await SentRegistrationNotificationJob.main();
   }
 }
