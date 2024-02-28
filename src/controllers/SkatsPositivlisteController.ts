@@ -18,7 +18,8 @@ export default class SkatsPositivlisteController {
 
   public async index(req: Request, res: Response): Promise<void> {
     try {
-      const fileModified = await XLSXService.getLastModifiedTime(this.filePath);
+      const fileModified: XLSXFileMetaDataInterface =
+        await XLSXService.getLastModifiedTime(this.filePath);
 
       res.render("index", {
         fileModified: fileModified,
