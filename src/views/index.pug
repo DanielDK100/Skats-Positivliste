@@ -32,7 +32,7 @@ block content
       p Vil du sikre dig, at bliver notificeret når en bestemt fond tilføjes til positivlisten? Herunder kan du registrere din email samt en given fonds 
         a(href='https://da.wikipedia.org/wiki/International_Securities_Identification_Number', target='_blank', data-bs-toggle='tooltip', data-bs-placement='top', title='ISIN-koden angiver hvor det underliggende aktiv er noteret. Det er samtidig en unik kode, som skelner de mange noterede aktiver fra hinanden') ISIN-kode (også kaldet fondskode)
         |  og blive notificeret, såfremt SKAT opdaterer deres positivliste med den angivne ISIN-kode. ISIN-koden kan du typisk finde på din foretrukne investeringsplatform.
-      form(class="mb-3", action='/register', method='POST')
+      form(class="mb-3", action='/register', method='POST', id="submit-registration-form")
         div(class="row")
           div(class="col col-md-4")
             input(oninput="this.value = this.value.toUpperCase()", type='text', pattern="^[A-Z]{2}.{10}", title="Skal bestå af landekode efterfulgt af 10 tegn" name='isin' class='form-control mb-2', placeholder='Indtast ISIN-kode' required)
@@ -41,14 +41,14 @@ block content
         p 
           small
             em Bemærk at du kun notificeres en gang pr. registrering, hvis SKAT tilføjer ISIN-koden til positivlisten, hvorefter den indtastede email tages af mailinglisten. Fjernes fondens ISIN-kode af SKAT på et senere tidspunkt, skal du derfor selv holde dig ajourført med positivlisten nedenfor - eller registrere din email på ny.
-        button(onclick='submitRegistration()' type='submit', class='btn btn-primary col-12 col-md-auto', id="submit-registration") 
+        button(onclick='submitRegistration()' type='submit', class='btn btn-primary col-12 col-md-auto', id="submit-registration-button") 
           span(class='spinner-border spinner-border-sm d-none', aria-hidden='true', id="submit-registration-spinner")
           |  Registrer email
 
-      if message 
-        div(class="alert alert-dismissible fade show alert-" + alertType, role='alert')
+      if status 
+        div(class="alert alert-dismissible fade show alert-" + (status === 'success' ? 'success' : 'danger') , role='alert')
           button(type='button', class='btn-close', data-bs-dismiss='alert', aria-label='Close')
-          | #{message}
+          | #{(status === 'success' ? 'Din registrering blev gemt' : 'Der skete en fejl')}
 
     div(class='d-flex justify-content-center')
       div(class='spinner-border text-primary my-5', role="status", id='spinner')

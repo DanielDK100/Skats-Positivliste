@@ -73,8 +73,13 @@ function transformColumns(columns) {
 }
 
 function submitRegistration() {
-  const button = document.querySelector("#submit-registration");
+  const form = document.querySelector("#submit-registration-form");
+  const button = document.querySelector("#submit-registration-button");
   const spinner = document.querySelector("#submit-registration-spinner");
+
+  if (!form.checkValidity()) {
+    return;
+  }
 
   gtag("event", "form_submit", {
     event_category: "registration",
@@ -82,7 +87,7 @@ function submitRegistration() {
   });
 
   spinner.classList.remove("d-none");
-  setTimeout(function () {
-    button.disabled = true;
-  }, 100);
+  button.disabled = true;
+
+  form.submit();
 }
