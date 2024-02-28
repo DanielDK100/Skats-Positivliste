@@ -12,16 +12,10 @@ export default class SkatsPositivlisteController {
     AppDataSource.getRepository(RegistrationEntity);
   private fileModified: XLSXFileMetaDataInterface;
 
-  constructor() {
-    this.initialize();
-  }
-
-  private async initialize(): Promise<void> {
-    this.fileModified = await XLSXService.getLastModifiedTime(this.filePath);
-  }
-
   public async index(req: Request, res: Response): Promise<void> {
     try {
+      this.fileModified = await XLSXService.getLastModifiedTime(this.filePath);
+
       res.render("index", {
         fileModified: this.fileModified,
       });
@@ -32,6 +26,8 @@ export default class SkatsPositivlisteController {
 
   public async register(req: Request, res: Response): Promise<void> {
     try {
+      this.fileModified = await XLSXService.getLastModifiedTime(this.filePath);
+
       await this.registrationRepository.save({
         isin: req.body.isin.replace(/\s/g, ""),
         email: req.body.email,
