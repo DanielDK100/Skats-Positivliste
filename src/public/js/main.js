@@ -71,3 +71,18 @@ async function fetchInvestmentCompaniesData() {
 function transformColumns(columns) {
   return columns.map((item) => ({ data: item, title: item }));
 }
+
+function submitRegistration() {
+  const button = document.querySelector("#submit-registration");
+  const spinner = document.querySelector("#submit-registration-spinner");
+
+  gtag("event", "form_submit", {
+    event_category: "registration",
+    event_label: "isin_email",
+  });
+
+  spinner.classList.remove("d-none");
+  setTimeout(function () {
+    button.disabled = true;
+  }, 100);
+}
