@@ -1,6 +1,7 @@
 import * as nodemailer from "nodemailer";
 import { RegistrationEntity } from "../entities/RegistrationEntity";
 import MailInterface from "./MailInterface";
+import pug from "pug";
 
 export default class RegistrationMail implements MailInterface {
   private transporter: nodemailer.Transporter;
@@ -26,15 +27,9 @@ export default class RegistrationMail implements MailInterface {
         from: process.env.MAIL_FROM,
         to: this.registration.email,
         subject: `${this.registration.isin} - tilføjet til SKATS positivliste`,
-        text: `
-Hej,
-
-${this.registration.isin} er nu blevet tilføjet til SKATS positivliste.
-Dobbelttjek at dette stemmer ved, at søge i positivlisten på ${process.env.SKATS_POSITIVLISTE_URL}.
-Du vil ikke blive om notificeret yderligere ændringer ang. ${this.registration.isin}.
-
-Mvh. ${process.env.SKATS_POSITIVLISTE_URL}
-`,
+        html: pug.renderFile("/app/views/mails/registration.pug", {
+          registration: this.registration,
+        }),
       },
       (error, info) => {
         if (error) {

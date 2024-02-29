@@ -1,0 +1,19 @@
+html(lang="da")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Registrering 
+  body 
+    p Hej,
+    p
+      | Fonden med ISIN-koden 
+      strong #{registration.isin} 
+      | er nu blevet tilføjet til SKATS positivliste.
+      br
+      | Bekræft venligst at dette er i overensstemmelse med positivlisten ved at søge efter ISIN-koden på 
+      a(href=process.env.SKATS_POSITIVLISTE_URL) positivlisten.
+      
+    p Du vil ikke blive notificeret om yderligere ændringer vedr. #{registration.isin}.
+
+    p Mvh. 
+      a(href=process.env.SKATS_POSITIVLISTE_URL) #{process.env.SKATS_POSITIVLISTE_URL}
