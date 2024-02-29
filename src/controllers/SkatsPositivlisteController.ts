@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import XLSXService, {
+  XLSXFileInterface,
   XLSXFileMetaDataInterface,
 } from "../services/XLSXService";
 import { AppDataSource } from "../data-source";
@@ -45,7 +46,9 @@ export default class SkatsPositivlisteController {
 
   public async investmentCompanies(req: Request, res: Response): Promise<void> {
     try {
-      const data = await XLSXService.fetchXLSXFileData(this.filePath);
+      const data: XLSXFileInterface = await XLSXService.fetchXLSXFileData(
+        this.filePath
+      );
       res.json(data);
     } catch (error) {
       res.status(500).send("Internal Server Error");
