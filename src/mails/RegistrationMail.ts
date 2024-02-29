@@ -27,7 +27,7 @@ export default class RegistrationMail implements MailInterface {
         from: process.env.MAIL_FROM,
         to: this.registration.email,
         subject: `${this.registration.isin} - tilføjet til SKATS positivliste`,
-        html: pug.renderFile("/app/views/mails/registration.pug", {
+        html: pug.renderFile("views/mails/registration.pug", {
           registration: this.registration,
         }),
       },
