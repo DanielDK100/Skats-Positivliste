@@ -1,8 +1,20 @@
 document.addEventListener("DOMContentLoaded", initialize);
 
 async function initialize() {
+  initializeTheme();
   initializeTooltips();
   await initializeDataTable();
+}
+
+function initializeTheme() {
+  const savedTheme = localStorage.getItem("themePreference");
+  const htmlTag = document.querySelector("html");
+
+  if (savedTheme) {
+    htmlTag.setAttribute("data-bs-theme", savedTheme);
+    const switchCheckbox = document.querySelector("#switch-theme");
+    switchCheckbox.checked = savedTheme === "dark";
+  }
 }
 
 function initializeTooltips() {
@@ -70,6 +82,15 @@ async function fetchInvestmentCompaniesData() {
 
 function transformColumns(columns) {
   return columns.map((item) => ({ data: item, title: item }));
+}
+
+function toggleTheme() {
+  const switchCheckbox = document.querySelector("#switch-theme");
+  const htmlTag = document.querySelector("html");
+  const themeValue = switchCheckbox.checked ? "dark" : "light";
+
+  htmlTag.setAttribute("data-bs-theme", themeValue);
+  localStorage.setItem("themePreference", themeValue);
 }
 
 function submitRegistration() {
