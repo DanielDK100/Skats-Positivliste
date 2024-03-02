@@ -6,6 +6,7 @@ export default class MailSetup {
   constructor() {
     this.transporter = nodemailer.createTransport({
       service: "Gmail",
+      pool: true,
       host: "smtp.gmail.com",
       port: 587,
       secure: true,
