@@ -20,7 +20,7 @@ class SendRegistrationNotificationJob implements JobInterface {
 
   private async processRegistrations(row: any): Promise<void> {
     const registrationsNotSent = await this.getUnnotifiedRegistrations(
-      row.isin
+      row.ISIN
     );
 
     for (const registration of registrationsNotSent) {

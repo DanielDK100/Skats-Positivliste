@@ -41,7 +41,7 @@ block content
         form(class="mb-3", action='/register', method='POST', id="submit-registration-form")
           div(class="row")
             div(class="col col-md-4")
-              input(oninput="sanitizeIsinInput()", type='text', pattern="^[A-Z]{2}.{10}", title="Skal bestå af landekode efterfulgt af 10 tegn" name='isin' class='form-control mb-2', placeholder='Indtast ISIN-kode', id='isin-input', required)
+              input(oninput="sanitizeIsinInput()", type='text', pattern="^[A-Z]{2}.{10}", title="ISIN skal bestå af landekode efterfulgt af 10 tegn" name='isin' class='form-control mb-2', placeholder='Indtast ISIN-kode', id='isin-input', required)
             div(class="col col-md")
               input(type='email', name='email' class='form-control mb-2', placeholder='Indtast email' required)
           p 

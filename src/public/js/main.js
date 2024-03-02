@@ -28,7 +28,7 @@ function initializeTooltips() {
 
 function sanitizeIsinInput() {
   const isin = document.querySelector("#isin-input");
-  isin.value = isin.value.replace(/\s/g, "").toUpperCase();
+  isin.value = isin.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
 }
 
 async function initializeDataTable() {
@@ -112,8 +112,8 @@ function submitRegistration() {
     event_label: "isin_email",
   });
 
-  spinner.classList.remove("d-none");
   button.disabled = true;
+  spinner.classList.remove("d-none");
 
   form.submit();
 }
