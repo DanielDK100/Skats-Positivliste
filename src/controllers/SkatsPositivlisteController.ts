@@ -33,9 +33,11 @@ export default class SkatsPositivlisteController {
 
   public async register(req: Request, res: Response): Promise<void> {
     try {
+      const { isin, email } = req.body;
+
       await this.registrationRepository.save({
-        isin: req.body.isin.replace(/\s/g, ""),
-        email: req.body.email,
+        isin,
+        email,
       });
 
       res.redirect(`/?status=${StatusEnum.Success}`);

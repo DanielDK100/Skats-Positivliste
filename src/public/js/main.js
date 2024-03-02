@@ -26,8 +26,13 @@ function initializeTooltips() {
   );
 }
 
+function sanitizeIsinInput() {
+  const isin = document.querySelector("#isin-input");
+  isin.value = isin.value.replace(/\s/g, "").toUpperCase();
+}
+
 async function initializeDataTable() {
-  const { columns, values } = await fetchInvestmentCompaniesData();
+  const { columns, values } = await fetchInvestmentCompanies();
   const transformedColumns = transformColumns(columns);
   const currentYear = new Date().getFullYear();
 
@@ -75,7 +80,7 @@ async function initializeDataTable() {
   return new DataTable("#table", dataTableOptions);
 }
 
-async function fetchInvestmentCompaniesData() {
+async function fetchInvestmentCompanies() {
   const response = await fetch("/investment-companies");
   return await response.json();
 }

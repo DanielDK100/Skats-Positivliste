@@ -10,10 +10,10 @@ block content
     section(class='d-flex align-items-start')
       h1 SKATs positivliste over ETF'er & fonde 
         small(class='text-muted') | #{fileModified.fileModified.getFullYear()}
-      div(class='d-flex ms-auto')
-        div(class='form-check form-switch')
-          input(class='form-check-input', type='checkbox', role='switch', id='switch-theme', onchange='toggleTheme()')
-          label(class='form-check-label', for='switch-theme') Skift tema
+      div(class='d-flex ms-auto form-check form-switch gap-2')
+        input(class='form-check-input', type='checkbox', role='switch', id='switch-theme', onchange='toggleTheme()')
+        label(class='form-check-label', for='switch-theme') 
+          small Skift tema
 
     article(class='row mb-4')
       section(class='col col-md-7')
@@ -33,23 +33,23 @@ block content
         p Herunder kan du sortere, søge og få et samlet overblik over fondene på positivlisten uden, at skulle manuelt downloade den opdaterede fil hver gang fra SKATs hjemmeside.
 
     section(class='mb-3')
-      h4(data-bs-toggle="collapse", href="#registration-collapse", aria-expanded="true", aria-controls="registration-collapse") Registrer din email og bliv notificeret ved opdatering af SKATS positivliste
+      h4(data-bs-toggle="collapse", href="#registration-collapse", aria-expanded="true", aria-controls="registration-collapse") Registrer en fond og bliv notificeret ved opdatering af SKATS positivliste
       div(class="collapse show", id="registration-collapse", aria-expanded="true" aria-controls="registration-collapse")
         p Vil du sikre dig, at bliver notificeret når en bestemt fond tilføjes til positivlisten? Herunder kan du registrere din email samt en given fonds 
-          a(href='https://da.wikipedia.org/wiki/International_Securities_Identification_Number', target='_blank', data-bs-toggle='tooltip', data-bs-placement='top', title='ISIN-koden angiver hvor det underliggende aktiv er noteret. Det er samtidig en unik kode, som skelner de mange noterede aktiver fra hinanden') ISIN-kode (også kaldet fondskode)
-          |  og blive notificeret, såfremt SKAT opdaterer deres positivliste med den angivne ISIN-kode. ISIN-koden kan du typisk finde på din foretrukne investeringsplatform.
+          a(href='https://da.wikipedia.org/wiki/International_Securities_Identification_Number', target='_blank', data-bs-toggle='tooltip', data-bs-placement='top', title='ISIN-koden angiver hvor det underliggende aktiv er noteret - det er samtidig en unik kode, som skelner de mange noterede aktiver fra hinanden') ISIN-kode (også kaldet fondskode)
+          |  og blive notificeret, såfremt SKAT opdaterer positivlisten med den angivne ISIN-kode. Fondens ISIN-kode kan du typisk finde på din foretrukne investeringsplatform.
         form(class="mb-3", action='/register', method='POST', id="submit-registration-form")
           div(class="row")
             div(class="col col-md-4")
-              input(oninput="this.value = this.value.toUpperCase()", type='text', pattern="^[A-Z]{2}.{10}", title="Skal bestå af landekode efterfulgt af 10 tegn" name='isin' class='form-control mb-2', placeholder='Indtast ISIN-kode' required)
+              input(oninput="sanitizeIsinInput()", type='text', pattern="^[A-Z]{2}.{10}", title="Skal bestå af landekode efterfulgt af 10 tegn" name='isin' class='form-control mb-2', placeholder='Indtast ISIN-kode', id='isin-input', required)
             div(class="col col-md")
               input(type='email', name='email' class='form-control mb-2', placeholder='Indtast email' required)
           p 
             small
-              em Bemærk at du kun notificeres en gang pr. registrering, hvis SKAT tilføjer ISIN-koden til positivlisten, hvorefter den indtastede email tages af mailinglisten. Fjernes fondens ISIN-kode af SKAT på et senere tidspunkt, skal du derfor selv holde dig ajourført med positivlisten nedenfor - eller registrere din email på ny.
+              em Bemærk at du kun notificeres en gang pr. registrering, og kun hvis SKAT tilføjer ISIN-koden til positivlisten, hvorefter den indtastede registrering tages af mailinglisten. Fjernes fondens ISIN-kode af SKAT på et senere tidspunkt, skal du derfor selv holde dig ajourført med positivlisten nedenfor - eller registrere fonden på ny, hvis den skulle blive tilføjet igen.
           button(onclick='submitRegistration()' type='submit', class='btn btn-primary col-12 col-md-auto', id="submit-registration-button") 
             span(class='spinner-border spinner-border-sm d-none', aria-hidden='true', id="submit-registration-spinner")
-            |  Registrer email
+            |  Registrer fond
 
       if status 
         section(class="d-flex align-items-center gap-2 alert alert-dismissible fade show alert-" + (status === 'success' ? 'success' : 'danger') , role='alert')
@@ -60,7 +60,7 @@ block content
           button(type='button', class='btn-close btn', data-bs-dismiss='alert', aria-label='Close')
 
     div(class='d-flex justify-content-center')
-      div(class='spinner-border text-primary my-5', role="status", id='spinner')
+      div(class='spinner-border text-primary my-3', role="status", id='spinner')
         span(class='visually-hidden') Indlæser...
  
     table(class='table table-sm table-striped table-hover', id='table')
