@@ -4,6 +4,7 @@ import XLSXService from "../services/XLSXService";
 import RegistrationMail from "../mails/RegistrationMail";
 import JobInterface from "./JobInterface";
 import { Repository } from "typeorm";
+import MailSetup from "../MailSetup";
 
 class SendRegistrationNotificationJob implements JobInterface {
   private filePath: string = "./public/xlsx/skats-positivliste.xlsx";
@@ -19,12 +20,13 @@ class SendRegistrationNotificationJob implements JobInterface {
   }
 
   private async processRegistrations(row: any): Promise<void> {
+    const mailSetup = new MailSetup();
     const registrationsNotSent = await this.getUnnotifiedRegistrations(
       row.ISIN
     );
 
     for (const registration of registrationsNotSent) {
-      new RegistrationMail(registration).send();
+      new RegistrationMail(mailSetup, registration).send();
 
       await this.markRegistrationAsNotified(registration);
       console.info("Registration updated");
