@@ -21,7 +21,7 @@ class SendRegistrationNotificationJob implements JobInterface {
 
   private async processRegistrations(row: any): Promise<void> {
     const mailSetup = new MailSetup();
-    const registrationsNotSent = await this.getUnnotifiedRegistrations(
+    const registrationsNotSent = await this.fetchUnnotifiedRegistrations(
       row.ISIN
     );
 
@@ -33,7 +33,7 @@ class SendRegistrationNotificationJob implements JobInterface {
     }
   }
 
-  private async getUnnotifiedRegistrations(
+  private async fetchUnnotifiedRegistrations(
     isin: string
   ): Promise<RegistrationEntity[]> {
     return await this.registrationRepository.find({
