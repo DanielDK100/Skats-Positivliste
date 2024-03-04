@@ -5,7 +5,7 @@ import SendRegistrationNotificationJob from "./jobs/SendRegistrationNotification
 export default class CronScheduler {
   public startCronJobs(): void {
     // Scheduled cron jobs
-    cron.schedule("0 21 * * *", async () => {
+    cron.schedule("0 17 * * *", async () => {
       await DownloadSkatsPositivlisteJob.main();
     });
 
