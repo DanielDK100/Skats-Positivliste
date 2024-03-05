@@ -96,6 +96,11 @@ function toggleTheme() {
 
   htmlTag.setAttribute("data-bs-theme", themeValue);
   localStorage.setItem("themePreference", themeValue);
+
+  gtag("event", "theme", {
+    event_category: "switch",
+    event_label: themeValue,
+  });
 }
 
 function submitRegistration() {
