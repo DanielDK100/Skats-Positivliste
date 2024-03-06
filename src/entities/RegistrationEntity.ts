@@ -15,7 +15,6 @@ export class RegistrationEntity {
   id: number;
 
   @Column({ length: 12 })
-  @Index()
   isin: string;
 
   @Column()
