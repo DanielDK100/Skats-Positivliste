@@ -5,11 +5,10 @@ import RegistrationMail from "../mails/RegistrationMail";
 import JobInterface from "./JobInterface";
 import { Repository } from "typeorm";
 import MailSetup from "../MailSetup";
+import RegistrationService from "../services/RegistrationService";
 
 class SendRegistrationNotificationJob implements JobInterface {
   private filePath: string = "./public/xlsx/skats-positivliste.xlsx";
-  private registrationRepository: Repository<RegistrationEntity> =
-    AppDataSource.getRepository(RegistrationEntity);
 
   private async send(): Promise<void> {
     const xlsxData = await XLSXService.fetchXLSXFileData(this.filePath);
@@ -21,36 +20,15 @@ class SendRegistrationNotificationJob implements JobInterface {
 
   private async processRegistrations(row: any): Promise<void> {
     const mailSetup = new MailSetup();
-    const registrationsNotSent = await this.fetchUnnotifiedRegistrations(
-      row.ISIN
-    );
+    const registrationsNotSent =
+      await RegistrationService.fetchUnnotifiedRegistrations(row.ISIN);
 
     for (const registration of registrationsNotSent) {
       new RegistrationMail(mailSetup, registration).send();
 
-      await this.markRegistrationAsNotified(registration);
+      await RegistrationService.markRegistrationAsNotified(registration);
       console.info("Registration updated");
     }
-  }
-
-  private async fetchUnnotifiedRegistrations(
-    isin: string
-  ): Promise<RegistrationEntity[]> {
-    return await this.registrationRepository.find({
-      where: {
-        isin: isin,
-        isNotified: false,
-      },
-    });
-  }
-
-  private async markRegistrationAsNotified(
-    registration: RegistrationEntity
-  ): Promise<void> {
-    await this.registrationRepository.save({
-      ...registration,
-      isNotified: true,
-    });
   }
 
   public async main(): Promise<void> {
