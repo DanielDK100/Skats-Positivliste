@@ -5,14 +5,17 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  Index,
 } from "typeorm";
 
 @Entity("registration")
+@Index("idx_isin_is_notified", ["isin", "isNotified"])
 export class RegistrationEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length: 12 })
+  @Index()
   isin: string;
 
   @Column()
