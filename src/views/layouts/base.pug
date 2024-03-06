@@ -30,5 +30,7 @@ html(lang='da', data-bs-theme="light")
         "dateModified": "#{fileModified.fileModified.toISOString()}"
       }
     block scripts
-  body
+  body(class='container py-3')
     block content
+
+    include ../includes/footer
