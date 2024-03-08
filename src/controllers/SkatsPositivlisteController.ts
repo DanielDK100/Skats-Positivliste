@@ -19,9 +19,10 @@ export default class SkatsPositivlisteController {
       const fileModified: XLSXFileMetaDataInterface =
         await XLSXService.getLastModifiedTime(this.filePath);
 
-      res.render("index", {
+      res.render("pages/index", {
         fileModified: fileModified,
         status: req.query.status,
+        statusEnum: StatusEnum,
       });
     } catch (error) {
       res.status(500).send("Internal Server Error");
@@ -48,6 +49,7 @@ export default class SkatsPositivlisteController {
       const data: XLSXFileInterface = await XLSXService.fetchXLSXFileData(
         this.filePath
       );
+
       res.json(data);
     } catch (error) {
       res.status(500).send("Internal Server Error");
