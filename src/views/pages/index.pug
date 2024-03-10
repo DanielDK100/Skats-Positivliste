@@ -26,7 +26,7 @@ block content
       section(class='col col-md')
         h3 Få overblik over SKATs positivliste: Nem søgning og sortering
         p Positivlisten downloades automatisk fra 
-          a(href=env.SKAT_URL + 'erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa', target='_blank', data-bs-toggle='tooltip', data-bs-html="true", data-bs-placement='bottom', title='Se under emnet "<em>Liste over aktiebaserede investeringsselskaber</em>"') SKATs hjemmeside
+          a(href=env.SKAT_URL + 'erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa', target='_blank', data-bs-toggle='tooltip', data-bs-html='true', data-bs-placement='bottom', title='Se under emnet "<em>Liste over aktiebaserede investeringsselskaber</em>"') SKATs hjemmeside
           |  og er senest blevet downloadet 
           strong
             time(datetime=fileModified.fileModified.toISOString()) #{fileModified.fileModified.toLocaleString('da-DK', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'})}
@@ -59,7 +59,7 @@ block content
           div #{(status === statusEnum.Success ? 'Din registrering blev gemt' : 'Der skete en fejl')}
           button(type='button', class='btn-close btn', data-bs-dismiss='alert', aria-label='Close')
 
-    div(class='d-flex justify-content-center')
+    section(class='d-flex justify-content-center')
       div(class='spinner-border text-primary my-3', role="status", id='spinner')
         span(class='visually-hidden') Indlæser...
  
