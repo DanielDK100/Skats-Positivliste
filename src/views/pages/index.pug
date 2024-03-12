@@ -21,7 +21,8 @@ block content
         p SKAT har offentliggjort en positivliste for de investeringsselskaber, herunder exchange-traded funds (ETF'er), som fra og med 
           strong
             time(datetime=fileModified.fileModified.getFullYear()) #{fileModified.fileModified.getFullYear()} 
-          | skal beskattes som aktieindkomst efter lagerprincippet, hvis man investerer for frie midler. Såfremt et investeringsselskab (herefter benævnt fond) ikke fremgår af positivlisten, vil man i stedet blive beskattet som kapitalindkomst ligeledes efter lagerprincippet.
+          | skal beskattes som aktieindkomst efter lagerprincippet, hvis man investerer for frie midler. Såfremt et investeringsselskab (herefter benævnt fond) ikke fremgår af positivlisten, vil man i stedet blive beskattet som kapitalindkomst ligeledes efter lagerprincippet. Alle fonde der optræder på positivlisten kan handles på bl.a. 
+          a(href=env.SKAT_URL + 'borger/aktier-og-andre-vaerdipapirer/aktiesparekonto', target='_blank', data-bs-toggle='tooltip', data-bs-placement='bottom', title='Aktiesparekontoen er en investeringskonto, der gør det nemmere og billigere at investere i aktiebaserede aktiver') aktiesparekontoen.
         p SKAT opdaterer med jævne mellemrum positivlisten over godkendte fonde i løbet af året.
       section(class='col col-md')
         h3 Få overblik over SKATs positivliste: Nem søgning og sortering
@@ -33,7 +34,7 @@ block content
         p Herunder kan du sortere, søge og få et samlet overblik over fondene på positivlisten uden, at skulle manuelt downloade den opdaterede fil hver gang fra SKATs hjemmeside.
 
     article(class='mb-3')
-      h4(data-bs-toggle="collapse", href="#registration-collapse", aria-expanded="true", aria-controls="registration-collapse") Registrer en fond og bliv notificeret ved opdatering af SKATS positivliste
+      h4(data-bs-toggle="collapse", href="#registration-collapse", aria-expanded="true", aria-controls="registration-collapse") Registrer din email og bliv notificeret når SKAT tilføjer en fond
       section(class="collapse show", id="registration-collapse", aria-expanded="true" aria-controls="registration-collapse")
         p Vil du sikre dig, at blive notificeret når en bestemt fond tilføjes til positivlisten? Herunder kan du registrere din email samt en given fonds 
           a(href='https://da.wikipedia.org/wiki/International_Securities_Identification_Number', target='_blank', data-bs-toggle='tooltip', data-bs-placement='top', title='ISIN-koden angiver hvor det underliggende aktiv er noteret - det er samtidig en unik kode, som skelner de mange noterede aktiver fra hinanden') ISIN-kode (også kaldet fondskode)
@@ -49,7 +50,11 @@ block content
               em Bemærk at du kun notificeres en gang pr. registrering, og kun hvis SKAT tilføjer ISIN-koden til positivlisten, hvorefter den indtastede registrering tages af mailinglisten. Fjernes fondens ISIN-kode af SKAT på et senere tidspunkt, skal du derfor selv holde dig ajourført med positivlisten nedenfor - eller registrere fonden på ny, hvis den skulle blive tilføjet igen.
           button(onclick='submitRegistration()' type='submit', class='btn btn-primary col-12 col-md-auto', id="submit-registration-button") 
             span(class='spinner-border spinner-border-sm d-none', aria-hidden='true', id="submit-registration-spinner")
-            |  Registrer fond
+            |  Registrer
+
+      ins(class='adsbygoogle', style="display:block", data-ad-client='ca-pub-6235382655273410', data-ad-slot='7626235157', data-ad-format='auto', data-full-width-responsive='true')
+      script.
+        (adsbygoogle = window.adsbygoogle || []).push({});
 
       if status 
         section(class="d-flex align-items-center gap-2 alert alert-dismissible fade show alert-" + (status === statusEnum.Success ? statusEnum.Success : statusEnum.Danger) , role='alert')
