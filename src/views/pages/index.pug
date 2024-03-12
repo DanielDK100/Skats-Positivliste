@@ -52,9 +52,10 @@ block content
             span(class='spinner-border spinner-border-sm d-none', aria-hidden='true', id="submit-registration-spinner")
             |  Registrer
 
-      ins(class='adsbygoogle', style="display:block", data-ad-client='ca-pub-6235382655273410', data-ad-slot='7626235157', data-ad-format='auto', data-full-width-responsive='true')
-      script.
-        (adsbygoogle = window.adsbygoogle || []).push({});
+      section
+        ins(class='adsbygoogle', style="display:block", data-ad-client='ca-pub-6235382655273410', data-ad-slot='7626235157', data-ad-format='auto', data-full-width-responsive='true')
+        script.
+          (adsbygoogle = window.adsbygoogle || []).push({});
 
       if status 
         section(class="d-flex align-items-center gap-2 alert alert-dismissible fade show alert-" + (status === statusEnum.Success ? statusEnum.Success : statusEnum.Danger) , role='alert')
