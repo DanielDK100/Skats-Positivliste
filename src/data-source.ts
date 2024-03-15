@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
   database: process.env.MYSQL_DATABASE,
   username: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
-  synchronize: true,
+  synchronize: process.env.NODE_ENV === "production" ? false : true,
   logging: false,
   entities: [RegistrationEntity],
   migrations: [],

@@ -12,23 +12,21 @@ export default class RegistrationMail implements MailInterface {
     this.registration = registration;
   }
 
-  public send(): void {
-    this.mailSetup.getTransporter().sendMail(
-      {
+  public async send(): Promise<string> {
+    try {
+      const response = await this.mailSetup.getTransporter().sendMail({
         from: process.env.MAIL_FROM,
         to: this.registration.email,
         subject: `${this.registration.isin} - tilføjet til SKATS positivliste`,
         html: pug.renderFile("views/mails/registration.pug", {
           registration: this.registration,
         }),
-      },
-      (error, info) => {
-        if (error) {
-          console.error("Error sending email: ", error);
-        } else {
-          console.info("Email sent: ", info.response);
-        }
-      }
-    );
+      });
+      console.info("Email sent: ", response.response);
+      return response.response;
+    } catch (error) {
+      console.error("Error sending email: ", error);
+      throw error;
+    }
   }
 }
