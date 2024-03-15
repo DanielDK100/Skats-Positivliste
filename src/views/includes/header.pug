@@ -12,10 +12,30 @@ head
   link(href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css', rel='stylesheet')
   link(href='https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.0/b-3.0.0/b-colvis-3.0.0/cr-2.0.0/r-3.0.0/rg-1.5.0/rr-1.5.0/sr-1.4.0/datatables.min.css', rel='stylesheet')
 
+  script(id='Cookiebot', src='https://consent.cookiebot.com/uc.js', data-cbid='5056f11c-6daf-42f8-abe9-8fd6f4e2eadf', data-blockingmode='auto', type='text/javascript')
+
   script(src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js')
   script(src='https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.0/b-3.0.0/b-colvis-3.0.0/cr-2.0.0/r-3.0.0/rg-1.5.0/rr-1.5.0/sr-1.4.0/datatables.min.js')
 
   script(src='https://www.googletagmanager.com/gtag/js?id=G-BL9LRG9CK6', defer)
+  script(data-cookieconsent="ignore").
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag("consent", "default", {
+        ad_personalization: "denied",
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        analytics_storage: "denied",
+        functionality_storage: "denied",
+        personalization_storage: "denied",
+        security_storage: "granted",
+        wait_for_update: 500,
+    });
+    gtag("set", "ads_data_redaction", true);
+    gtag("set", "url_passthrough", true);
+
   script(src='./js/gtag.js', defer)
   script(src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6235382655273410', crossorigin='anonymous', async)
   title #{fileModified.fileModified.getFullYear()} | SKATs positivliste | ETF'er & fonde
