@@ -26,7 +26,7 @@ class SendRegistrationNotificationJob implements JobInterface {
     }
   }
 
-  public async main(): Promise<void> {
+  public async run(): Promise<void> {
     const xlsxData = await XLSXService.fetchXLSXFileData(this.filePath);
 
     for (const row of xlsxData.values) {

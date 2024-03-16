@@ -37,7 +37,7 @@ class DownloadSkatsPositivlisteJob implements JobInterface {
     });
   }
 
-  public async main(): Promise<void> {
+  public async run(): Promise<void> {
     const data = await this.fetchData(
       process.env.SKAT_URL +
         "erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa"
