@@ -63,7 +63,7 @@ async function initializeDataTable() {
     retrieve: true,
     order: [[9, "desc"]],
     language: {
-      url: "https://cdn.datatables.net/plug-ins/2.0.0/i18n/da.json",
+      url: "//cdn.datatables.net/plug-ins/2.0.3/i18n/da.json",
       searchPlaceholder: "Søg efter ETF/fond",
     },
     scrollY: "70vh",
