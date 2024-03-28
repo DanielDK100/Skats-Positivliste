@@ -47,6 +47,8 @@ class RegistrationService {
       })
     );
 
+    topRegistrations.sort((a, b) => a.percentage - b.percentage);
+
     return topRegistrations;
   }
 
