@@ -4,6 +4,23 @@ async function initialize() {
   initializeTheme();
   initializeTooltips();
   await initializeDataTable();
+  const ctx = document.querySelector("#chart");
+  const topRegistrations = await (await fetch("/top-registrations")).json();
+  const isinValues = topRegistrations.map((item) => item.isin);
+  const percentageValue = topRegistrations.map((item) => item.percentage);
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: isinValues,
+      datasets: [
+        {
+          label: "Top 10 ISIN registreringer i procent",
+          data: percentageValue,
+        },
+      ],
+    },
+  });
 }
 
 function initializeTheme() {
@@ -63,7 +80,7 @@ async function initializeDataTable() {
     retrieve: true,
     order: [[9, "desc"]],
     language: {
-      url: "//cdn.datatables.net/plug-ins/2.0.3/i18n/da.json",
+      url: "https://cdn.datatables.net/plug-ins/2.0.3/i18n/da.json",
       searchPlaceholder: "Søg efter ETF/fond",
     },
     scrollY: "70vh",

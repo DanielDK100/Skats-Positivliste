@@ -2,6 +2,11 @@ import { Repository } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { RegistrationEntity } from "../entities/RegistrationEntity";
 
+interface TopRegistrations {
+  isin: string;
+  percentage: number;
+}
+
 class RegistrationService {
   private registrationRepository: Repository<RegistrationEntity> =
     AppDataSource.getRepository(RegistrationEntity);
@@ -15,6 +20,34 @@ class RegistrationService {
         isNotified: false,
       },
     });
+  }
+
+  public async topRegistrations(top: number): Promise<TopRegistrations[]> {
+    const totalCountResult = await this.registrationRepository.count({
+      where: {
+        isNotified: false,
+      },
+    });
+
+    const registrationCounts = await this.registrationRepository
+      .createQueryBuilder("registration")
+      .select("isin, COUNT(id) as registrationCount")
+      .where("isNotified = :isNotified", { isNotified: false })
+      .groupBy("isin")
+      .orderBy("registrationCount", "ASC")
+      .limit(top)
+      .getRawMany();
+
+    const topRegistrations: TopRegistrations[] = registrationCounts.map(
+      (registration) => ({
+        isin: registration.isin,
+        percentage: Math.trunc(
+          (registration.registrationCount / totalCountResult) * 100
+        ),
+      })
+    );
+
+    return topRegistrations;
   }
 
   public async markRegistrationAsNotified(

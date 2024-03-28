@@ -13,7 +13,13 @@ class SkatsPositivlisteRoutes {
 
     router.get(
       "/",
-      this.skatsPositivlisteController.index.bind(
+      this.skatsPositivlisteController.indexView.bind(
+        this.skatsPositivlisteController
+      )
+    );
+    router.get(
+      "/top-registreringer",
+      this.skatsPositivlisteController.topRegistrationsView.bind(
         this.skatsPositivlisteController
       )
     );
@@ -23,6 +29,12 @@ class SkatsPositivlisteRoutes {
     router.get(
       "/investment-companies",
       this.skatsPositivlisteController.investmentCompanies.bind(
+        this.skatsPositivlisteController
+      )
+    );
+    router.get(
+      "/top-registrations",
+      this.skatsPositivlisteController.topRegistrations.bind(
         this.skatsPositivlisteController
       )
     );

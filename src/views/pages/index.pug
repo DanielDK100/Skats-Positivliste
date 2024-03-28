@@ -33,43 +33,55 @@ block content
             time(datetime=fileModified.fileModified.toISOString()) #{fileModified.fileModified.toLocaleString('da-DK', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'})}
         p Herunder kan du sortere, søge og få et samlet overblik over fondene på positivlisten uden, at skulle manuelt downloade den opdaterede fil hver gang fra SKATs hjemmeside.
 
-    article(class='mb-3')
-      h4(data-bs-toggle="collapse", href="#registration-collapse", aria-expanded="true", aria-controls="registration-collapse") Registrer din email og bliv notificeret når SKAT tilføjer en fond
-      section(class="collapse show", id="registration-collapse", aria-expanded="true" aria-controls="registration-collapse")
-        p Vil du sikre dig, at blive notificeret når en bestemt fond tilføjes til positivlisten? Herunder kan du registrere din email samt en given fonds 
-          a(href='https://da.wikipedia.org/wiki/International_Securities_Identification_Number', target='_blank', data-bs-toggle='tooltip', data-bs-placement='top', title='ISIN-koden angiver hvor det underliggende aktiv er noteret - det er samtidig en unik kode, som skelner de mange noterede aktiver fra hinanden') ISIN-kode (også kaldet fondskode)
-          |  og blive notificeret, såfremt SKAT opdaterer positivlisten med den angivne ISIN-kode. Fondens ISIN-kode kan du typisk finde på din foretrukne investeringsplatform.
-        form(class="mb-3", action='/register', method='POST', id="submit-registration-form")
-          div(class="row")
-            div(class="col col-md-4")
-              input(oninput="sanitizeIsinInput()", type='text', pattern="^[A-Z]{2}.{10}", title="ISIN skal bestå af landekode efterfulgt af 10 tegn" name='isin' class='form-control mb-2', placeholder='Indtast ISIN-kode', id='isin-input', required)
-            div(class="col col-md")
-              input(type='email', name='email' class='form-control mb-2', placeholder='Indtast email' required)
-          p 
-            small
-              em Bemærk at du kun notificeres én gang pr. registrering, og kun hvis SKAT tilføjer ISIN-koden til positivlisten, hvorefter den indtastede registrering tages af mailinglisten. Fjernes fondens ISIN-kode af SKAT på et senere tidspunkt, skal du derfor selv holde dig ajourført med positivlisten nedenfor - eller registrere dig igen, hvis fonden igen skulle blive tilføjet engang i fremtiden.
-          button(onclick='submitRegistration()' type='submit', class='btn btn-primary col-12 col-md-auto', id="submit-registration-button") 
-            span(class='spinner-border spinner-border-sm d-none', aria-hidden='true', id="submit-registration-spinner")
-            |  Registrer
+    ul(class='nav nav-tabs mb-3')
+      li(class='nav-item')
+        a.nav-link(class=(url === '/' ? 'active' : ''), href="/") SKATS positivliste
+      li(class='nav-item')
+        a.nav-link(class=(url === '/top-registreringer' ? 'active' : ''), href="/top-registreringer") Top 10 ISIN registeringer
 
-      section
-        ins(class='adsbygoogle d-flex justify-content-center', data-ad-client='ca-pub-6235382655273410', data-ad-slot='7626235157', data-ad-format='horizontal', data-full-width-responsive='true')
-        script.
-          (adsbygoogle = window.adsbygoogle || []).push({});
+    article
+      if url === '/top-registreringer'    
+        section
+          h4 Top 10 ISIN registreringer: Mest populære fonde
+          p Nedenfor vises en liste over de 10 mest efterspurgte fonde, som folk har vist interesse for at modtage notifikationer om, men som ikke er inkluderet på positivlisten endnu. Gennemgå disse fonde for at finde inspiration til potentielle investeringsmuligheder, som du kan overveje at registrere dig til.
+          canvas(id="chart")
+      else 
+        section
+          h4 Registrer din email og bliv notificeret når SKAT tilføjer en fond
+          p Vil du sikre dig, at blive notificeret når en bestemt fond tilføjes til positivlisten? Herunder kan du registrere din email samt en given fonds 
+            a(href='https://da.wikipedia.org/wiki/International_Securities_Identification_Number', target='_blank', data-bs-toggle='tooltip', data-bs-placement='top', title='ISIN-koden angiver hvor det underliggende aktiv er noteret - det er samtidig en unik kode, som skelner de mange noterede aktiver fra hinanden') ISIN-kode (også kaldet fondskode)
+            |  og blive notificeret, såfremt SKAT opdaterer positivlisten med den angivne ISIN-kode. Fondens ISIN-kode kan du typisk finde på din foretrukne investeringsplatform.
+          form(class="mb-3", action='/register', method='POST', id="submit-registration-form")
+            div(class="row")
+              div(class="col col-md-4")
+                input(oninput="sanitizeIsinInput()", type='text', pattern="^[A-Z]{2}.{10}", title="ISIN skal bestå af landekode efterfulgt af 10 tegn" name='isin' class='form-control mb-2', placeholder='Indtast ISIN-kode', id='isin-input', required)
+              div(class="col col-md")
+                input(type='email', name='email' class='form-control mb-2', placeholder='Indtast email' required)
+            p 
+              small
+                em Bemærk at du kun notificeres én gang pr. registrering, og kun hvis SKAT tilføjer ISIN-koden til positivlisten, hvorefter den indtastede registrering tages af mailinglisten. Fjernes fondens ISIN-kode af SKAT på et senere tidspunkt, skal du derfor selv holde dig ajourført med positivlisten nedenfor - eller registrere dig igen, hvis fonden igen skulle blive tilføjet engang i fremtiden.
+            button(onclick='submitRegistration()' type='submit', class='btn btn-primary col-12 col-md-auto', id="submit-registration-button") 
+              span(class='spinner-border spinner-border-sm d-none', aria-hidden='true', id="submit-registration-spinner")
+              |  Registrer
 
-      if status 
-        section(class="d-flex align-items-center gap-2 alert alert-dismissible fade show alert-" + (status === statusEnum.Success ? statusEnum.Success : statusEnum.Danger) , role='alert')
-          if status === statusEnum.Success
-            svg(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", class="bi bi-check-circle-fill", viewBox="0 0 16 16")
-              path(d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05")
-          div #{(status === statusEnum.Success ? 'Din registrering blev gemt' : 'Der skete en fejl')}
-          button(type='button', class='btn-close btn', data-bs-dismiss='alert', aria-label='Close')
+        section
+          ins(class='adsbygoogle d-flex justify-content-center', data-ad-client='ca-pub-6235382655273410', data-ad-slot='7626235157', data-ad-format='horizontal', data-full-width-responsive='true')
+          script.
+            (adsbygoogle = window.adsbygoogle || []).push({});
 
-    section(class='d-flex justify-content-center')
-      div(class='spinner-border text-primary my-3', role="status", id='spinner')
-        span(class='visually-hidden') Indlæser...
- 
-    table(class='table table-sm table-striped table-hover', id='table')
-      caption
-        a(href='./xlsx/skats-positivliste.xlsx', download, data-bs-toggle='tooltip', data-bs-placement='top', title='Download SKATs positivliste som Excel-fil') SKATs positivliste for #{fileModified.fileModified.getFullYear()} 
+        if status 
+          section(class="d-flex align-items-center gap-2 alert alert-dismissible fade show alert-" + (status === statusEnum.Success ? statusEnum.Success : statusEnum.Danger) , role='alert')
+            if status === statusEnum.Success
+              svg(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", class="bi bi-check-circle-fill", viewBox="0 0 16 16")
+                path(d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05")
+            div #{(status === statusEnum.Success ? 'Din registrering blev gemt' : 'Der skete en fejl')}
+            button(type='button', class='btn-close btn', data-bs-dismiss='alert', aria-label='Close')
+
+        section(class='d-flex justify-content-center')
+          div(class='spinner-border text-primary my-3', role="status", id='spinner')
+            span(class='visually-hidden') Indlæser...
+    
+        table(class='table table-sm table-striped table-hover', id='table')
+          caption
+            a(href='./xlsx/skats-positivliste.xlsx', download, data-bs-toggle='tooltip', data-bs-placement='top', title='Download SKATs positivliste som Excel-fil') SKATs positivliste for #{fileModified.fileModified.getFullYear()} 
 

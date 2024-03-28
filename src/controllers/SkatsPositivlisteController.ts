@@ -14,15 +14,33 @@ enum StatusEnum {
 export default class SkatsPositivlisteController {
   private filePath: string = "./public/xlsx/skats-positivliste.xlsx";
 
-  public async index(req: Request, res: Response): Promise<void> {
+  public async indexView(req: Request, res: Response): Promise<void> {
     try {
       const fileModified: XLSXFileMetaDataInterface =
         await XLSXService.getLastModifiedTime(this.filePath);
 
       res.render("pages/index", {
         fileModified: fileModified,
+        url: req.url,
         status: req.query.status,
         statusEnum: StatusEnum,
+      });
+    } catch (error) {
+      res.status(500).send("Internal Server Error");
+    }
+  }
+
+  public async topRegistrationsView(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    try {
+      const fileModified: XLSXFileMetaDataInterface =
+        await XLSXService.getLastModifiedTime(this.filePath);
+
+      res.render("pages/index", {
+        fileModified: fileModified,
+        url: req.url,
       });
     } catch (error) {
       res.status(500).send("Internal Server Error");
@@ -52,7 +70,16 @@ export default class SkatsPositivlisteController {
 
       res.json(data);
     } catch (error) {
-      res.status(500).send("Internal Server Error");
+      res.status(500).json("Internal Server Error");
+    }
+  }
+
+  public async topRegistrations(req: Request, res: Response) {
+    try {
+      const topRegistrations = await RegistrationService.topRegistrations(10);
+      res.json(topRegistrations);
+    } catch (error) {
+      res.status(500).json("Internal Server Error");
     }
   }
 }
