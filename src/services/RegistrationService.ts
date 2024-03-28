@@ -31,10 +31,10 @@ class RegistrationService {
 
     const registrationCounts = await this.registrationRepository
       .createQueryBuilder("registration")
-      .select("isin, COUNT(id) as registrationCount")
-      .where("isNotified = :isNotified", { isNotified: false })
-      .groupBy("isin")
-      .orderBy("registrationCount", "ASC")
+      .select("registration.isin, COUNT(registration.id) as registrationCount")
+      .where("registration.isNotified = :isNotified", { isNotified: false })
+      .groupBy("registration.isin")
+      .orderBy("registrationCount", "DESC")
       .limit(top)
       .getRawMany();
 
