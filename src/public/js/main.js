@@ -109,9 +109,14 @@ async function initializeChart() {
         },
       ],
     },
-    scales: {
-      y: {
-        beginAtZero: true,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0,
+          },
+        },
       },
     },
   };
