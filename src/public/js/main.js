@@ -104,7 +104,7 @@ async function initializeChart() {
       labels: isinValues,
       datasets: [
         {
-          label: "Antal registreringer:",
+          label: "Antal registreringer",
           data: amountValues,
         },
       ],
