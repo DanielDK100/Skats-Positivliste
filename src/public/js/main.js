@@ -106,6 +106,7 @@ async function initializeChart() {
         {
           label: "Antal registreringer",
           data: amountValues,
+          borderWidth: 1,
         },
       ],
     },
