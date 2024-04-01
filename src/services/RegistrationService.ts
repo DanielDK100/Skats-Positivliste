@@ -4,7 +4,7 @@ import { RegistrationEntity } from "../entities/RegistrationEntity";
 
 interface TopRegistrations {
   isin: string;
-  percentage: number;
+  amount: number;
 }
 
 class RegistrationService {
@@ -23,12 +23,6 @@ class RegistrationService {
   }
 
   public async topRegistrations(top: number): Promise<TopRegistrations[]> {
-    const totalCountResult = await this.registrationRepository.count({
-      where: {
-        isNotified: false,
-      },
-    });
-
     const registrationCounts = await this.registrationRepository
       .createQueryBuilder("registration")
       .select("registration.isin, COUNT(registration.id) as registrationCount")
@@ -41,13 +35,11 @@ class RegistrationService {
     const topRegistrations: TopRegistrations[] = registrationCounts.map(
       (registration) => ({
         isin: registration.isin,
-        percentage: Math.trunc(
-          (registration.registrationCount / totalCountResult) * 100
-        ),
+        amount: registration.registrationCount,
       })
     );
 
-    topRegistrations.sort((a, b) => a.percentage - b.percentage);
+    topRegistrations.sort((a, b) => a.amount - b.amount);
 
     return topRegistrations;
   }

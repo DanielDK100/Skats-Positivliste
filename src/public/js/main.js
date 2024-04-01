@@ -1,36 +1,22 @@
 document.addEventListener("DOMContentLoaded", initialize);
-
+initializeTheme(false);
 async function initialize() {
-  initializeTheme();
+  initializeTheme(true);
   initializeTooltips();
   await initializeDataTable();
-  const ctx = document.querySelector("#chart");
-  const topRegistrations = await (await fetch("/top-registrations")).json();
-  const isinValues = topRegistrations.map((item) => item.isin);
-  const percentageValue = topRegistrations.map((item) => item.percentage);
-
-  new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: isinValues,
-      datasets: [
-        {
-          label: "Top 10 ISIN registreringer i procent",
-          data: percentageValue,
-        },
-      ],
-    },
-  });
+  await initializeChart();
 }
 
-function initializeTheme() {
+function initializeTheme(domLoaded) {
   const savedTheme = localStorage.getItem("themePreference");
   const htmlTag = document.querySelector("html");
 
   if (savedTheme) {
     htmlTag.setAttribute("data-bs-theme", savedTheme);
-    const switchCheckbox = document.querySelector("#switch-theme");
-    switchCheckbox.checked = savedTheme === "dark";
+    if (domLoaded) {
+      const switchCheckbox = document.querySelector("#switch-theme");
+      switchCheckbox.checked = savedTheme === "dark";
+    }
   }
 }
 
@@ -49,6 +35,11 @@ function sanitizeIsinInput() {
 }
 
 async function initializeDataTable() {
+  const table = document.querySelector("#table");
+  if (!table) {
+    return;
+  }
+
   const { columns, values } = await fetchInvestmentCompanies();
   const transformedColumns = transformColumns(columns);
   const currentYear = new Date().getFullYear();
@@ -94,11 +85,46 @@ async function initializeDataTable() {
     },
   };
 
-  return new DataTable("#table", dataTableOptions);
+  return new DataTable(table, dataTableOptions);
+}
+
+async function initializeChart() {
+  const chart = document.querySelector("#chart");
+  if (!chart) {
+    return;
+  }
+
+  const topRegistrations = await fetchTopRegistrations();
+  const isinValues = topRegistrations.map((item) => item.isin);
+  const amountValues = topRegistrations.map((item) => item.amount);
+
+  const chartOptions = {
+    type: "bar",
+    data: {
+      labels: isinValues,
+      datasets: [
+        {
+          label: "Antal registreringer:",
+          data: amountValues,
+        },
+      ],
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+  new Chart(chart, chartOptions);
 }
 
 async function fetchInvestmentCompanies() {
   const response = await fetch("/investment-companies");
+  return await response.json();
+}
+
+async function fetchTopRegistrations() {
+  const response = await fetch("/top-registrations");
   return await response.json();
 }
 
