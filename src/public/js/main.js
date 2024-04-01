@@ -89,8 +89,8 @@ async function initializeDataTable() {
 }
 
 async function initializeChart() {
-  const chart = document.querySelector("#chart");
-  if (!chart) {
+  const chartElement = document.querySelector("#chart");
+  if (!chartElement) {
     return;
   }
 
@@ -121,7 +121,21 @@ async function initializeChart() {
       },
     },
   };
-  new Chart(chart, chartOptions);
+  const chart = new Chart(chartElement, chartOptions);
+
+  chartElement.onclick = (event) => {
+    const res = chart.getElementsAtEventForMode(
+      event,
+      "nearest",
+      { intersect: true },
+      true
+    );
+    const label = chart.data.labels[res[0].index];
+    window.open(
+      `https://morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=${label}`,
+      "_blank"
+    );
+  };
 }
 
 async function fetchInvestmentCompanies() {
