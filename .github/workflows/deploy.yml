@@ -32,6 +32,6 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             cd ${{ secrets.REMOTE_TARGET }}
-            npm install
+            npm install --production
             npm run build
             pm2 restart all
