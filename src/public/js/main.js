@@ -47,9 +47,10 @@ async function initializeDataTable() {
   const dataTableOptions = {
     responsive: true,
     columnDefs: [
-      { responsivePriority: 1, targets: -1 },
+      { responsivePriority: 1, targets: 2 },
 
       {
+        responsivePriority: 2,
         targets: -1,
         render: function (data, type, row, meta) {
           const badgeClass =
@@ -58,7 +59,8 @@ async function initializeDataTable() {
         },
       },
       {
-        targets: -9,
+        responsivePriority: 3,
+        targets: 1,
         render: function (data, type, row, meta) {
           if (/^[A-Z]{2}.{10}$/.test(data)) {
             return `<a href='https://morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=${data}' target='_blank' title='Morningstar.dk'>${data}</a>`;

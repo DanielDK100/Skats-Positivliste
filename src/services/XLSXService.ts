@@ -19,9 +19,13 @@ class XLSXService {
   private extractSheetData(workbook: XLSX.WorkBook): unknown[] {
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
-    return XLSX.utils.sheet_to_json(sheet, {
-      defval: "",
-    });
+    const json = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+
+    return json.map((row: Record<string, any>) =>
+      Object.fromEntries(
+        Object.entries(row).filter(([key]) => key !== "__EMPTY" && key !== "ws")
+      )
+    );
   }
 
   public async getLastModifiedTime(
