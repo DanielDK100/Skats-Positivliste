@@ -3,6 +3,12 @@ import * as fs from "fs";
 import { JSDOM } from "jsdom";
 import JobInterface from "./JobInterface";
 
+interface DownloadFileOptions {
+  headers: {
+    userAgent: string;
+  };
+}
+
 class DownloadSkatsPositivlisteJob implements JobInterface {
   private async fetchData(url: string): Promise<string> {
     const response = await fetch(url);
@@ -16,7 +22,13 @@ class DownloadSkatsPositivlisteJob implements JobInterface {
   }
 
   private downloadFile(element: HTMLAnchorElement): void {
-    https.get(process.env.SKAT_URL + element.href, (response) => {
+    const options: DownloadFileOptions = {
+      headers: {
+        userAgent: "Googlebot Desktop",
+      },
+    };
+
+    https.get(process.env.SKAT_URL + element.href, options, (response) => {
       const fileStream = fs.createWriteStream(
         "./public/xlsx/skats-positivliste.xlsx"
       );
