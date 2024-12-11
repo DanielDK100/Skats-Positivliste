@@ -15,12 +15,12 @@ export default class CronScheduler {
 
     // Use below function to debug cron jobs
     if (process.env.NODE_ENV === "development") {
-      this.debugCronJobs();
+      //this.debugCronJobs();
     }
   }
 
   private async debugCronJobs(): Promise<void> {
     await DownloadSkatsPositivlisteJob.run();
-    //await SendRegistrationNotificationJob.run();
+    await SendRegistrationNotificationJob.run();
   }
 }
