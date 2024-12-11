@@ -3,9 +3,13 @@ import * as fs from "fs";
 import { JSDOM } from "jsdom";
 import JobInterface from "./JobInterface";
 
+enum UserAgent {
+  MyCustomUserAgent,
+}
+
 interface DownloadFileOptions {
   headers: {
-    userAgent: string;
+    "User-Agent": UserAgent;
   };
 }
 
@@ -18,35 +22,50 @@ class DownloadSkatsPositivlisteJob implements JobInterface {
 
   private fetchElement(body: string): HTMLAnchorElement | null {
     const dom = new JSDOM(body);
+
+    const title = dom.window.document.querySelector(
+      "a[title^='ABIS Listen' i]"
+    );
+
     return dom.window.document.querySelector("a[title^='ABIS Listen' i]");
   }
 
   private downloadFile(element: HTMLAnchorElement): void {
     const options: DownloadFileOptions = {
       headers: {
-        userAgent: "Googlebot Desktop",
+        "User-Agent": UserAgent.MyCustomUserAgent,
       },
     };
 
-    https.get(process.env.SKAT_URL + element.href, options, (response) => {
-      const fileStream = fs.createWriteStream(
-        "./public/xlsx/skats-positivliste.xlsx"
-      );
-      response.pipe(fileStream);
-      fileStream.on("finish", () => {
-        const currentDate = new Date();
+    https
+      .get(process.env.SKAT_URL + element.href, options, (response) => {
+        const fileStream = fs.createWriteStream(
+          "./public/xlsx/skats-positivliste.xlsx"
+        );
 
-        fs.utimesSync(
-          "./public/xlsx/skats-positivliste.xlsx",
-          currentDate,
-          currentDate
-        );
-        fileStream.close();
-        console.info(
-          "Download finished: " + currentDate.toLocaleString("da-DK")
-        );
+        if (response.statusCode !== 200) {
+          console.error("Request failed with status:", response.statusCode);
+          return;
+        }
+
+        response.pipe(fileStream);
+        fileStream.on("finish", () => {
+          const currentDate = new Date();
+
+          fs.utimesSync(
+            "./public/xlsx/skats-positivliste.xlsx",
+            currentDate,
+            currentDate
+          );
+          fileStream.close();
+          console.info(
+            "Download finished: " + currentDate.toLocaleString("da-DK")
+          );
+        });
+      })
+      .on("error", (err) => {
+        console.error("HTTP request error:", err.message);
       });
-    });
   }
 
   public async run(): Promise<void> {
