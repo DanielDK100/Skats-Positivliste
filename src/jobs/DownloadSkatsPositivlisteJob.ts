@@ -4,10 +4,14 @@ import { JSDOM } from "jsdom";
 import JobInterface from "./JobInterface";
 
 enum UserAgent {
-  MyCustomUserAgent,
+  Chrome = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+  Firefox = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:119.0) Gecko/20100101 Firefox/119.0",
+  Edge = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0",
+  Safari = "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
+  Opera = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 OPR/99.0.0.0",
 }
 
-interface DownloadFileOptions {
+interface RequestOptions {
   headers: {
     "User-Agent": UserAgent;
   };
@@ -23,49 +27,50 @@ class DownloadSkatsPositivlisteJob implements JobInterface {
   private fetchElement(body: string): HTMLAnchorElement | null {
     const dom = new JSDOM(body);
 
-    const title = dom.window.document.querySelector(
-      "a[title^='ABIS Listen' i]"
-    );
-
     return dom.window.document.querySelector("a[title^='ABIS Listen' i]");
   }
 
+  private getRandomUserAgent(): UserAgent {
+    const userAgents = Object.values(UserAgent);
+    const randomIndex = Math.floor(Math.random() * userAgents.length);
+    return userAgents[randomIndex];
+  }
+
   private downloadFile(element: HTMLAnchorElement): void {
-    const options: DownloadFileOptions = {
+    const userAgent = this.getRandomUserAgent();
+    const options: RequestOptions = {
       headers: {
-        "User-Agent": UserAgent.MyCustomUserAgent,
+        "User-Agent": userAgent,
       },
     };
 
-    https
-      .get(process.env.SKAT_URL + element.href, options, (response) => {
-        const fileStream = fs.createWriteStream(
-          "./public/xlsx/skats-positivliste.xlsx"
+    console.log("User-Agent: ", options.headers["User-Agent"]);
+
+    https.get(process.env.SKAT_URL + element.href, options, (response) => {
+      const fileStream = fs.createWriteStream(
+        "./public/xlsx/skats-positivliste.xlsx"
+      );
+
+      if (response.statusCode !== 200) {
+        console.error("Request failed with status:", response.statusCode);
+        return;
+      }
+
+      response.pipe(fileStream);
+      fileStream.on("finish", () => {
+        const currentDate = new Date();
+
+        fs.utimesSync(
+          "./public/xlsx/skats-positivliste.xlsx",
+          currentDate,
+          currentDate
         );
-
-        if (response.statusCode !== 200) {
-          console.error("Request failed with status:", response.statusCode);
-          return;
-        }
-
-        response.pipe(fileStream);
-        fileStream.on("finish", () => {
-          const currentDate = new Date();
-
-          fs.utimesSync(
-            "./public/xlsx/skats-positivliste.xlsx",
-            currentDate,
-            currentDate
-          );
-          fileStream.close();
-          console.info(
-            "Download finished: " + currentDate.toLocaleString("da-DK")
-          );
-        });
-      })
-      .on("error", (err) => {
-        console.error("HTTP request error:", err.message);
+        fileStream.close();
+        console.info(
+          "Download finished: " + currentDate.toLocaleString("da-DK")
+        );
       });
+    });
   }
 
   public async run(): Promise<void> {
