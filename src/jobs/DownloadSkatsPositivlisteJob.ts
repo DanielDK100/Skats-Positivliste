@@ -47,14 +47,14 @@ class DownloadSkatsPositivlisteJob implements JobInterface {
     console.log("User-Agent: ", options.headers["User-Agent"]);
 
     https.get(process.env.SKAT_URL + element.href, options, (response) => {
-      const fileStream = fs.createWriteStream(
-        "./public/xlsx/skats-positivliste.xlsx"
-      );
-
       if (response.statusCode !== 200) {
         console.error("Request failed with status:", response.statusCode);
         return;
       }
+      
+      const fileStream = fs.createWriteStream(
+        "./public/xlsx/skats-positivliste.xlsx"
+      );
 
       response.pipe(fileStream);
       fileStream.on("finish", () => {
