@@ -23,7 +23,9 @@ class XLSXService {
 
     return json.map((row: Record<string, any>) =>
       Object.fromEntries(
-        Object.entries(row).filter(([key]) => key !== "__EMPTY" && key !== "ws")
+        Object.entries(row).filter(
+          ([key]) => key !== "__EMPTY" && key !== "__EMPTY_1" && key !== "ws"
+        )
       )
     );
   }

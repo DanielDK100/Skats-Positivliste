@@ -62,8 +62,8 @@ async function initializeDataTable() {
         responsivePriority: 3,
         targets: 1,
         render: function (data, type, row, meta) {
-          if (/^[A-Z]{2}.{10}$/.test(data)) {
-            return `<a href='https://morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=${data}' target='_blank' title='Morningstar.dk'>${data}</a>`;
+          if (/^[A-Z]{2}[0-9A-Z]{10}$/.test(data.trim())) {
+            return `<a href='https://morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=${data.trim()}' rel='noreferrer' target='_blank' title='Morningstar.dk'>${data.trim()}</a>`;
           }
           return data;
         },
