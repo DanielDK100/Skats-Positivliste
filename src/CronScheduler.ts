@@ -6,7 +6,10 @@ export default class CronScheduler {
   public startCronJobs(): void {
     // Scheduled cron jobs
     cron.schedule("0 17 * * *", async () => {
-      await DownloadSkatsPositivlisteJob.run();
+      const delay = this.getRandomDelay();
+      setTimeout(async () => {
+        await DownloadSkatsPositivlisteJob.run();
+      }, delay);
     });
 
     cron.schedule("0 18 * * *", async () => {
@@ -17,6 +20,11 @@ export default class CronScheduler {
     if (process.env.NODE_ENV === "development") {
       //this.debugCronJobs();
     }
+  }
+
+  private getRandomDelay(): number {
+    // Random delay between 0 and 5 minutes (in milliseconds)
+    return Math.floor(Math.random() * 5 * 60 * 1000);
   }
 
   private async debugCronJobs(): Promise<void> {
