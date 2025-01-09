@@ -6,7 +6,7 @@ export default class CronScheduler {
   public startCronJobs(): void {
     // Scheduled cron jobs
     cron.schedule("0 17 * * *", async () => {
-      const delay = this.getRandomDelay();
+      const delay = this.getRandomDelay(2, 10);
       setTimeout(async () => {
         await DownloadSkatsPositivlisteJob.run();
       }, delay);
@@ -22,9 +22,14 @@ export default class CronScheduler {
     }
   }
 
-  private getRandomDelay(): number {
-    // Random delay between 0 and 5 minutes (in milliseconds)
-    return Math.floor(Math.random() * 5 * 60 * 1000);
+  private getRandomDelay(minMinutes: number, maxMinutes: number): number {
+    const minMilliseconds = minMinutes * 60 * 1000;
+    const maxMilliseconds = maxMinutes * 60 * 1000;
+
+    // Generate a random delay within the specified range
+    return Math.floor(
+      Math.random() * (maxMilliseconds - minMilliseconds) + minMilliseconds
+    );
   }
 
   private async debugCronJobs(): Promise<void> {
