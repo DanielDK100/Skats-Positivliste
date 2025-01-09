@@ -37,10 +37,10 @@ class DownloadSkatsPositivlisteJob implements JobInterface {
   }
 
   private downloadFile(element: HTMLAnchorElement): void {
-    const userAgent = this.getRandomUserAgent();
+    const randdomUserAgent = this.getRandomUserAgent();
     const options: RequestOptions = {
       headers: {
-        "User-Agent": userAgent,
+        "User-Agent": randdomUserAgent,
       },
     };
 
@@ -51,7 +51,7 @@ class DownloadSkatsPositivlisteJob implements JobInterface {
         console.error("Request failed with status:", response.statusCode);
         return;
       }
-      
+
       const fileStream = fs.createWriteStream(
         "./public/xlsx/skats-positivliste.xlsx"
       );
