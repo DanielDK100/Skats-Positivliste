@@ -37,10 +37,10 @@ class DownloadSkatsPositivlisteJob implements JobInterface {
   }
 
   private downloadFile(element: HTMLAnchorElement): void {
-    const randdomUserAgent = this.getRandomUserAgent();
+    const randomUserAgent = this.getRandomUserAgent();
     const options: RequestOptions = {
       headers: {
-        "User-Agent": randdomUserAgent,
+        "User-Agent": randomUserAgent,
       },
     };
 
