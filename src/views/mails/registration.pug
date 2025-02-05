@@ -8,12 +8,12 @@ html(lang="da")
     p
       | Fonden med ISIN-koden 
       strong #{registration.isin} 
-      | er nu blevet tilføjet til SKATS positivliste.
+      | er nu blevet fundet på SKATs positivliste.
       br
-      | Bekræft venligst at dette er i overensstemmelse med positivlisten ved at søge efter ISIN-koden på 
+      | Bekræft venligst, at dette er i overensstemmelse med positivlisten ved at søge efter ISIN-koden på 
       a(href=process.env.SKATS_POSITIVLISTE_URL) positivlisten.
       
-    p Du vil ikke blive notificeret om yderligere ændringer vedr. #{registration.isin}.
+    p Du vil ikke modtage yderligere notifikationer om ændringer vedrørende #{registration.isin}.
 
     p Mvh. 
       a(href=process.env.SKATS_POSITIVLISTE_URL) #{process.env.SKATS_POSITIVLISTE_URL}
