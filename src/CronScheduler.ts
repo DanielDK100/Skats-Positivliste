@@ -18,7 +18,7 @@ export default class CronScheduler {
 
     // Use below function to debug cron jobs
     if (process.env.NODE_ENV === "development") {
-      //this.debugCronJobs();
+      this.debugCronJobs();
     }
   }
 
