@@ -34,6 +34,6 @@ export default class CronScheduler {
 
   private async debugCronJobs(): Promise<void> {
     await DownloadSkatsPositivlisteJob.run();
-    await SendRegistrationNotificationJob.run();
+    await SendRegistrationNotificationJob.run();  
   }
 }
