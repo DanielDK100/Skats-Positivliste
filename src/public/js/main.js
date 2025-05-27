@@ -42,7 +42,6 @@ async function initializeDataTable() {
 
   const { columns, values } = await fetchInvestmentCompanies();
   const transformedColumns = transformColumns(columns);
-  const currentYear = new Date().getFullYear();
 
   const dataTableOptions = {
     responsive: true,
@@ -53,9 +52,8 @@ async function initializeDataTable() {
         responsivePriority: 2,
         targets: -1,
         render: function (data, type, row, meta) {
-          const badgeClass =
-            data === currentYear ? "bg-primary" : "bg-secondary";
-          return `<span class="badge ${badgeClass}">${data}</span>`;
+          data = String(data).replace(/\s+/g, "").split(/[,\.]/).sort((a, b) => b - a).join("<br>");
+          return `<span class="badge bg-secondary">${data}</span>`;
         },
       },
       {
