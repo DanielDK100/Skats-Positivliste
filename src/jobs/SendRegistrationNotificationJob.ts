@@ -22,12 +22,11 @@ class SendRegistrationNotificationJob implements JobInterface {
       await RegistrationService.fetchUnnotifiedRegistrations(row.isin);
 
     for (const registration of registrationsNotSent) {
-      //const mail = await new RegistrationMail(mailSetup, registration).send();
+      const mail = await new RegistrationMail(mailSetup, registration).send();
 
-      /*if (parseInt(mail.slice(0, 3)) === StatusCode.OK) {
-      }*/
-      await RegistrationService.markRegistrationAsNotified(registration);
-      console.info("Registration updated");
+      if (parseInt(mail.slice(0, 3)) === StatusCode.OK) {
+        await RegistrationService.markRegistrationAsNotified(registration);
+      }
     }
   }
 

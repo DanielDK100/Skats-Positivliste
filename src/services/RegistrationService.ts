@@ -51,6 +51,7 @@ class RegistrationService {
       ...registration,
       isNotified: true,
     });
+    console.info("Registration updated");
   }
 
   public async resetIsNotified(

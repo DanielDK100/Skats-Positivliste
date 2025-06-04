@@ -23,6 +23,7 @@ export default class RegistrationMail implements MailInterface {
         }),
       });
       console.info("Email sent: ", response.response);
+      
       return response.response;
     } catch (error) {
       console.error("Error sending email: ", error);
