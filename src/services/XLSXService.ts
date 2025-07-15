@@ -45,12 +45,10 @@ class XLSXService {
     return Object.fromEntries(
       Object.entries(row).filter(
         ([key]) =>
-          key !== "__EMPTY" &&
-          key !== "__EMPTY_1" &&
           key !== "ws" &&
           key !== "LEI kode" &&
           key !== "TIN" &&
-          key !== "Afregistrerede år"
+          key !== "Ikke registrerede år"
       )
     );
   }
