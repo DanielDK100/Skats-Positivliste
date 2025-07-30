@@ -73,7 +73,7 @@ const DataTableManager = {
         {
           responsivePriority: 2,
           targets: -1,
-          render: (data) => `<span class="badge bg-secondary">${String(data).replace(/\s+/g, "").split(/[,\.]/).sort((a, b) => b - a).join(",<br>")}</span>`
+          render: (data) => `<span class="badge bg-secondary">${String(data).replace(/\s+/g, "").split(/[,\.]/).sort((a, b) => b - a).join(", <br>")}</span>`
         },
         {
           responsivePriority: 3,
