@@ -57,6 +57,16 @@ const DataTableManager = {
     const { columns, values } = await fetchJson("/investment-companies");
     const transformedColumns = columns.map((item) => ({ data: item, title: item }));
     const dataTableOptions = {
+      columnControl: [
+        {
+            target: 0,
+            content: ['orderStatus']
+        },
+        {
+            target: 1,
+            content: ['search']
+        }
+      ],
       layout: {
         topStart: {
           buttons: [
@@ -85,7 +95,7 @@ const DataTableManager = {
       ],
       stateSave: true,
       retrieve: true,
-      order: [[9, "desc"]],
+      order: [[0, "asc"]],
       language: {
         url: "https://cdn.datatables.net/plug-ins/2.3.2/i18n/da.json",
         searchPlaceholder: "Søg efter ETF/fond",
