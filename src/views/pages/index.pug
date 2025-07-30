@@ -16,7 +16,7 @@ block content
           small Skift tema
 
     article(class='row mb-3')
-      section(class='col col-md-7')
+      section(class='col-12 col-md-7')
         h3 Hvad er SKATs positivliste?
         p SKAT har offentliggjort en positivliste for de investeringsselskaber, herunder exchange-traded funds (ETF'er), som fra og med 
           strong
@@ -24,14 +24,14 @@ block content
           | skal beskattes som aktieindkomst efter lagerprincippet, hvis man investerer for frie midler. Såfremt et investeringsselskab (herefter benævnt fond) ikke fremgår af positivlisten, vil man i stedet blive beskattet som kapitalindkomst ligeledes efter lagerprincippet. Fonde der optræder på positivlisten kan handles på f.eks. 
           a(href='https://track.adtraction.com/t/t?a=1720107323&as=1950083675&t=2&tk=1', target='_blank', data-bs-toggle='tooltip', data-bs-placement='bottom', title='Aktiesparekontoen er en investeringskonto, der gør det nemmere og billigere at investere i aktiebaserede aktiver') aktiesparekontoen hos Nordnet (affiliate-link).
         p SKAT opdaterer med jævne mellemrum positivlisten over godkendte fonde i løbet af året.
-      section(class='col col-md')
+      section(class='col-12 col-md')
         h3 Få overblik over SKATs positivliste: Nem søgning og sortering
         p Positivlisten downloades automatisk fra 
           a(href=env.SKAT_URL + 'erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa', target='_blank', data-bs-toggle='tooltip', data-bs-html='true', data-bs-placement='bottom', title='Se under emnet "<em>Liste over aktiebaserede investeringsselskaber</em>"') SKATs hjemmeside
           |  og er senest blevet downloadet 
           strong
             time(datetime=fileModified.fileModified.toISOString()) #{fileModified.fileModified.toLocaleString('da-DK', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'})}
-        p Herunder kan du sortere, søge og få et samlet overblik over fondene på positivlisten uden, at skulle manuelt downloade den opdaterede fil hver gang fra SKATs hjemmeside.
+        p Herunder kan du sortere, søge og få et samlet overblik over fondene på positivlisten uden at skulle downloade den opdaterede fil manuelt hver gang fra SKATs hjemmeside.
 
     ul(class='nav nav-tabs mb-3')
       li(class='nav-item')
@@ -95,5 +95,5 @@ block content
     
         table(class='table table-sm table-striped table-hover', id='table')
           caption
-            a(href='./xlsx/skats-positivliste.xlsx', download, data-bs-toggle='tooltip', data-bs-placement='top', title='Download SKATs positivliste som Excel-fil') SKATs positivliste for #{fileModified.fileModified.getFullYear()} 
+            small SKATs positivliste for #{fileModified.fileModified.getFullYear()} 
 
