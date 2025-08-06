@@ -17,7 +17,7 @@ block content
 
     article(class='row mb-3')
       section(class='col-12 col-md-7')
-        h3 Hvad er SKATs positivliste?
+        h2 Hvad er SKATs positivliste?
         p SKAT har offentliggjort en positivliste for de investeringsselskaber, herunder exchange-traded funds (ETF'er), som fra og med 
           strong
             time(datetime=fileModified.fileModified.getFullYear()) #{fileModified.fileModified.getFullYear()} 
@@ -25,7 +25,7 @@ block content
           a(href='https://track.adtraction.com/t/t?a=1720107323&as=1950083675&t=2&tk=1', target='_blank', data-bs-toggle='tooltip', data-bs-placement='bottom', title='Aktiesparekontoen er en investeringskonto, der gør det nemmere og billigere at investere i aktiebaserede aktiver') aktiesparekontoen hos Nordnet (affiliate-link).
         p SKAT opdaterer med jævne mellemrum positivlisten over godkendte fonde i løbet af året.
       section(class='col-12 col-md')
-        h3 Få overblik over SKATs positivliste: Nem søgning og sortering
+        h2 Få overblik over SKATs positivliste: Nem søgning og sortering
         p Positivlisten downloades automatisk fra 
           a(href=env.SKAT_URL + 'erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa', target='_blank', data-bs-toggle='tooltip', data-bs-html='true', data-bs-placement='bottom', title='Se under emnet "<em>Liste over aktiebaserede investeringsselskaber</em>"') SKATs hjemmeside
           |  og er senest blevet downloadet 
@@ -42,7 +42,7 @@ block content
     article
       if url === '/top-registreringer'
         section
-          h4 Top 10 fonds-registreringer: Mest efterspurgte fonde
+          h3 Top 10 fonds-registreringer: Mest efterspurgte fonde
           p Nedenfor vises et søjlediagram over de 10 mest efterspurgte fonde (noteret ud fra ISIN-kode), som folk har vist interesse for at modtage notifikationer om, men som ikke er inkluderet på positivlisten endnu. Gennemgå disse fonde for at finde inspiration til potentielle investeringsmuligheder, som du kan overveje at 
             a(href='/') registrere dig til
             |  og få besked herom, hvis disse fonde tilføjes til positivlisten. Du kan klikke på hvert enkelt søjlediagram og blive ledt videre til Morningstars hjemmeside, for at læse mere om hver fond. 
@@ -53,7 +53,7 @@ block content
           canvas(id="chart")
       else 
         section
-          h4 Registrer din email og bliv notificeret når SKAT tilføjer en fond
+          h3 Registrer din email og bliv notificeret når SKAT tilføjer en fond
           p Vil du sikre dig, at blive notificeret når en bestemt fond tilføjes til positivlisten? Herunder kan du registrere din email samt en given fonds 
             a(href='https://da.wikipedia.org/wiki/International_Securities_Identification_Number', target='_blank', data-bs-toggle='tooltip', data-bs-placement='top', title='ISIN-koden angiver hvor det underliggende aktiv er noteret - det er samtidig en unik kode, som skelner de mange noterede aktiver fra hinanden') ISIN-kode (også kaldet fondskode)
             |  og blive notificeret, såfremt SKAT opdaterer positivlisten med den angivne ISIN-kode. Fondens ISIN-kode kan du typisk finde på din foretrukne investeringsplatform.

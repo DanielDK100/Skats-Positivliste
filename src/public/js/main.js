@@ -73,6 +73,11 @@ const DataTableManager = {
             { extend: 'copy', className: 'btn btn-sm' },
             { extend: 'csv', className: 'btn btn-sm' },
             { extend: 'excel', className: 'btn btn-sm' },
+            { 
+              extend: 'pdf', 
+              className: 'btn btn-sm',
+              orientation: 'landscape'
+            },
           ],
           pageLength: 'pageLength',
         },
