@@ -102,7 +102,7 @@ const DataTableManager = {
       retrieve: true,
       order: [[0, "asc"]],
       language: {
-        url: "https://cdn.datatables.net/plug-ins/2.3.2/i18n/da.json",
+        url: "https://cdn.datatables.net/plug-ins/2.3.4/i18n/da.json",
         searchPlaceholder: "Søg efter ETF/fond",
       },
       scrollY: "70vh",
