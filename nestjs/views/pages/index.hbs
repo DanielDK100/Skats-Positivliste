@@ -1,0 +1,138 @@
+
+<link href="./css/styles.css" rel="stylesheet">
+
+<main>
+  <section class="d-flex align-items-start">
+    <h1>
+      SKATs positivliste over ETF'er & fonde 
+      <small class="text-muted">| {{fileModified.getFullYear}}</small>
+    </h1>
+    <div class="d-flex ms-auto form-check form-switch gap-2">
+      <input class="form-check-input" type="checkbox" role="switch" id="switch-theme" onchange="toggleTheme()">
+      <label class="form-check-label" for="switch-theme">
+        <small>Skift tema</small>
+      </label>
+    </div>
+  </section>
+
+  <article class="row mb-3">
+    <section class="col-12 col-md-7">
+      <h2>Hvad er SKATs positivliste?</h2>
+      <p>
+        SKAT har offentliggjort en positivliste for de investeringsselskaber, herunder exchange-traded funds (ETF'er), som fra og med 
+        <strong>
+          <time datetime="{{fileModified.getFullYear}}">{{fileModified.getFullYear}}</time>
+        </strong>
+        skal beskattes som aktieindkomst efter lagerprincippet, hvis man investerer for frie midler. Såfremt et investeringsselskab (herefter benævnt fond) ikke fremgår af positivlisten, vil man i stedet blive beskattet som kapitalindkomst ligeledes efter lagerprincippet. Fonde der optræder på positivlisten kan handles på f.eks. 
+        <a href="https://track.adtraction.com/t/t?a=1720107323&as=1950083675&t=2&tk=1" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Aktiesparekontoen er en investeringskonto, der gør det nemmere og billigere at investere i aktiebaserede aktiver">aktiesparekontoen hos Nordnet (affiliate-link)</a>.
+      </p>
+      <p>SKAT opdaterer med jævne mellemrum positivlisten over godkendte fonde i løbet af året.</p>
+    </section>
+    <section class="col-12 col-md">
+      <h2>Få overblik over SKATs positivliste: Nem søgning og sortering</h2>
+      <p>
+        Positivlisten downloades automatisk fra 
+        <a href="{{env.SKAT_URL}}erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa" target="_blank" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="bottom" title='Se under emnet "<em>Liste over aktiebaserede investeringsselskaber</em>"'>SKATs hjemmeside</a>
+        og er senest blevet downloadet 
+        <strong>
+          <time datetime="{{fileModified.toISOString}}">{{fileModified.toLocaleString}}</time>
+        </strong>
+      </p>
+      <p>Herunder kan du sortere, søge og få et samlet overblik over fondene på positivlisten uden at skulle downloade den opdaterede fil manuelt hver gang fra SKATs hjemmeside.</p>
+    </section>
+  </article>
+
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <a class="nav-link {{#if (eq url '/') }}active{{/if}}" href="/">SKATs positivliste</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {{#if (eq url '/top-registreringer') }}active{{/if}}" href="/top-registreringer">Top 10 fonds-registreringer</a>
+    </li>
+  </ul>
+
+  <article>
+    {{#if (eq url '/top-registreringer')}}
+      <section>
+        <h3>Top 10 fonds-registreringer: Mest efterspurgte fonde</h3>
+        <p>
+          Nedenfor vises et søjlediagram over de 10 mest efterspurgte fonde (noteret ud fra ISIN-kode), som folk har vist interesse for at modtage notifikationer om, men som ikke er inkluderet på positivlisten endnu. Gennemgå disse fonde for at finde inspiration til potentielle investeringsmuligheder, som du kan overveje at 
+          <a href="/">registrere dig til</a>
+          og få besked herom, hvis disse fonde tilføjes til positivlisten. Du kan klikke på hvert enkelt søjlediagram og blive ledt videre til Morningstars hjemmeside, for at læse mere om hver fond.
+        </p>
+        <section>
+          <ins class="adsbygoogle d-flex justify-content-center" data-ad-client="ca-pub-6235382655273410" data-ad-slot="7626235157" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </section>
+        <canvas id="chart"></canvas>
+      </section>
+    {{else}}
+      <section>
+        <h3>Registrer din email og bliv notificeret når SKAT tilføjer en fond</h3>
+        <p>
+          Vil du sikre dig, at blive notificeret når en bestemt fond tilføjes til positivlisten? Herunder kan du registrere din email samt en given fonds 
+          <a href="https://da.wikipedia.org/wiki/International_Securities_Identification_Number" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="ISIN-koden angiver hvor det underliggende aktiv er noteret - det er samtidig en unik kode, som skelner de mange noterede aktiver fra hinanden">ISIN-kode (også kaldet fondskode)</a>
+          og blive notificeret, såfremt SKAT opdaterer positivlisten med den angivne ISIN-kode. Fondens ISIN-kode kan du typisk finde på din foretrukne investeringsplatform.
+        </p>
+        <form class="mb-3" action="/register" method="POST" id="submit-registration-form">
+          <div class="row">
+            <div class="col col-md-4">
+              <input oninput="sanitizeIsinInput()" type="text" pattern="^[A-Z]{2}.{10}" title="ISIN skal bestå af landekode efterfulgt af 10 tegn" name="isin" class="form-control mb-2" placeholder="Indtast ISIN-kode" id="isin-input" required>
+            </div>
+            <div class="col col-md">
+              <input type="email" name="email" class="form-control mb-2" placeholder="Indtast email" required>
+            </div>
+          </div>
+          <p>
+            <small>
+              <em>Bemærk at du kun notificeres én gang pr. registrering, og kun hvis SKAT tilføjer ISIN-koden til positivlisten, hvorefter den indtastede registrering tages af mailinglisten. Fjernes fondens ISIN-kode af SKAT på et senere tidspunkt, skal du derfor selv holde dig ajourført med positivlisten nedenfor - eller registrere dig igen, hvis fonden igen skulle blive tilføjet engang i fremtiden.</em>
+            </small>
+          </p>
+          <button onclick="submitRegistration()" type="submit" class="btn btn-primary col-12 col-md-auto" id="submit-registration-button">
+            <span class="spinner-border spinner-border-sm d-none" aria-hidden="true" id="submit-registration-spinner"></span>
+            Registrer
+          </button>
+        </form>
+
+        <section>
+          <a class="d-flex justify-content-center mb-4" href="https://track.adtraction.com/t/t?a=1726385661&as=1950083675&t=2&tk=1" target="_blank">
+            <img class="img-fluid" src="https://track.adtraction.com/t/t?a=1726385661&as=1950083675&t=1&tk=1&i=1" alt="Nordnet reklamebanner" border="0" fetchpriority="high">
+          </a>
+        </section>
+
+        <section>
+          <ins class="adsbygoogle d-flex justify-content-center mb-4" data-ad-client="ca-pub-6235382655273410" data-ad-slot="7626235157" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </section>
+
+        {{#if status}}
+          <section class="d-flex align-items-center gap-2 alert alert-dismissible fade show alert-{{#if (eq status statusEnum.Success)}}{{statusEnum.Success}}{{else}}{{statusEnum.Danger}}{{/if}}" role="alert">
+            {{#if (eq status statusEnum.Success)}}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05"/>
+              </svg>
+            {{/if}}
+            <div>{{#if (eq status statusEnum.Success)}}Din registrering blev gemt{{else}}Der skete en fejl{{/if}}</div>
+            <button type="button" class="btn-close btn" data-bs-dismiss="alert" aria-label="Close"></button>
+          </section>
+        {{/if}}
+
+        <section class="d-flex justify-content-center">
+          <div class="spinner-border text-primary my-3" role="status" id="spinner">
+            <span class="visually-hidden">Indlæser...</span>
+          </div>
+        </section>
+    
+        <table class="table table-sm table-striped table-hover" id="table">
+          <caption>
+            <small>SKATs positivliste for {{fileModified.getFullYear}}</small>
+          </caption>
+        </table>
+      </section>
+    {{/if}}
+  </article>
+</main>

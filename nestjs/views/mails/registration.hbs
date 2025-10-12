@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrering notifikation</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+      }
+      h1 {
+        color: #2c3e50;
+      }
+      .info {
+        background: #e8f4f8;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+      }
+      .highlight {
+        font-weight: bold;
+        color: #2980b9;
+      }
+      .footer {
+        margin-top: 30px;
+        font-size: 0.9em;
+        color: #7f8c8d;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>ISIN Notifikation</h1>
+      <p>Hej,</p>
+      <p>
+        Du modtager denne mail, fordi du har registreret dig til at modtage besked, 
+        når ISIN koden 
+        <span class="highlight">{{registration.isin}}</span>
+        bliver tilføjet til SKATs positivliste.
+      </p>
+      
+      <div class="info">
+        <p>Vi kan med glæde meddele, at ISIN koden nu er tilføjet til listen.</p>
+        <p>Du kan se den opdaterede liste på SKATs hjemmeside.</p>
+      </div>
+
+      <p>Venlig hilsen,</p>
+      <p>Skats Positivliste Notifikation</p>
+      
+      <div class="footer">
+        <p>Dette er en automatisk genereret mail. Venligst svar ikke på denne mail.</p>
+        <p>&copy; {{currentYear}} Skats Positivliste Notifikation</p>
+      </div>
+    </div>
+  </body>
+</html>
