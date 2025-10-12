@@ -26,8 +26,9 @@ class DownloadSkatsPositivlisteJob implements JobInterface {
 
   private fetchElement(body: string): HTMLAnchorElement | null {
     const dom = new JSDOM(body);
+    const element: HTMLAnchorElement | null = dom.window.document.querySelector("a[title^='ABIS List' i]");
 
-    return dom.window.document.querySelector("a[title^='ABIS Listen' i]");
+    return element;
   }
 
   private getRandomUserAgent(): UserAgent {
