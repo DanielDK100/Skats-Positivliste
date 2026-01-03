@@ -46,9 +46,9 @@ class XLSXService {
       Object.entries(row).filter(
         ([key]) =>
           key !== "ws" &&
-          key !== "LEI kode" &&
-          key !== "TIN" &&
-          key !== "Ikke registrerede år"
+          key !== "LEI-kode/-Code" &&
+          key !== "CVR/SE/TIN" &&
+          key !== "Ikke registrerede år/Deregistered"
       )
     );
   }

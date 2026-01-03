@@ -35,11 +35,11 @@ class SendRegistrationNotificationJob implements JobInterface {
 
     for (const row of xlsxData.values) {
       const mappedRow: XLSXDataRowInterface = {
-        isin: row['ISIN-kode'],
+        isin: row['ISIN-kode/-Code'],
       };
 
       if (!mappedRow.isin || typeof mappedRow.isin !== 'string') {
-        console.error("Missing or invalid 'ISIN-kode'");
+        console.error("Missing or invalid 'ISIN code'");
 
         break;
       }
