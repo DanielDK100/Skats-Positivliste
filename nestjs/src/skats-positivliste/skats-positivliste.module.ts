@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SkatsPositivlisteController } from './controllers/skats-positivliste.controller';
+import { TopRegistrationController } from './controllers/top-registration.controller';
 import { RegistrationService } from './services/registration.service';
 import { XlsxService } from './services/xlsx.service';
 import { RegistrationEntity } from './entities/registration.entity';
@@ -14,13 +15,13 @@ import { LoggerModule } from '../common/logger/logger.module';
     TypeOrmModule.forFeature([RegistrationEntity]),
     LoggerModule.forRoot('SkatsPositivlisteModule'),
   ],
-  controllers: [SkatsPositivlisteController],
+  controllers: [SkatsPositivlisteController, TopRegistrationController],
   providers: [
-    RegistrationService, 
-    XlsxService, 
+    RegistrationService,
+    XlsxService,
     SkatsPositivlisteService,
-    CronService, 
-    MailService
+    CronService,
+    MailService,
   ],
 })
 export class SkatsPositivlisteModule {}

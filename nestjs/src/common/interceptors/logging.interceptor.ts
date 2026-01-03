@@ -18,7 +18,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const request = ctx.getRequest<FastifyRequest>();
     const response = ctx.getResponse<FastifyReply>();
     const { method, url } = request;
-    const body = request.body as Record<string, any> || {};
+    const body = (request.body as Record<string, any>) || {};
     const ip = request.ip || '';
     const userAgent = request.headers['user-agent'] || '';
     const startTime = Date.now();
@@ -38,9 +38,13 @@ export class LoggingInterceptor implements NestInterceptor {
           this.logger.log(
             `${method} ${url} ${statusCode} +${responseTime}ms - ${ip} - ${userAgent}`,
           );
-          
+
           // Only log request body for API endpoints and if it contains data
-          if ((url.startsWith('/api/') || url.includes('register')) && body && Object.keys(body).length > 0) {
+          if (
+            (url.startsWith('/api/') || url.includes('register')) &&
+            body &&
+            Object.keys(body).length > 0
+          ) {
             // Mask sensitive data like email
             const sanitizedBody = { ...body };
             if (sanitizedBody.email) {
@@ -55,7 +59,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
   private maskEmail(email: string): string {
     const [localPart, domain] = email.split('@');
-    const maskedLocalPart = 
+    const maskedLocalPart =
       localPart.length <= 3
         ? '*'.repeat(localPart.length)
         : localPart.substring(0, 2) + '*'.repeat(localPart.length - 2);

@@ -43,7 +43,8 @@ import { ThrottlerModule } from './common/throttler/throttler.module';
         database: configService.get('MYSQL_DATABASE'),
         username: configService.get('MYSQL_USER'),
         password: configService.get('MYSQL_PASSWORD'),
-        synchronize: configService.get('NODE_ENV') === 'production' ? false : true,
+        synchronize:
+          configService.get('NODE_ENV') === 'production' ? false : true,
         autoLoadEntities: true,
         logging: false,
       }),

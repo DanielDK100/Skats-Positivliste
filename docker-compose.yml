@@ -1,14 +1,12 @@
 services:
   node:
     ports:
-      - 8181:8181
+      - 3001:3001
     build:
       context: .
       dockerfile: dockerfiles/node.dockerfile
-    extra_hosts:
-      - "domain.test:127.0.0.1"
     volumes:
-      - ./src:/app
+      - ./nestjs:/app
       - /app/node_modules
     networks:
       - node

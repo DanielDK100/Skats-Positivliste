@@ -15,23 +15,23 @@ export class CustomThrottlerGuard extends ThrottlerGuard {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     // Get request object
     const request = context.switchToHttp().getRequest();
-    
+
     // Skip throttling for whitelisted IPs (e.g., internal services)
     const ip = request.ip;
     const whitelistedIps = ['127.0.0.1', '::1']; // Add trusted IPs here
-    
+
     if (whitelistedIps.includes(ip)) {
       return true;
     }
-    
+
     // Skip throttling for specific routes
     const { path } = request.route;
     const skipPaths = ['/health', '/metrics'];
-    
-    if (skipPaths.some(skipPath => path?.includes(skipPath))) {
+
+    if (skipPaths.some((skipPath) => path?.includes(skipPath))) {
       return true;
     }
-    
+
     // Apply throttling for all other requests
     return super.canActivate(context);
   }

@@ -36,8 +36,12 @@ export class MailService {
       console.error('- Error: ' + error.message);
       if (error.code === 'EAUTH') {
         console.error('- It appears your credentials are invalid.');
-        console.error('- For Gmail, make sure to use an "App Password", not your regular password.');
-        console.error('- Create an App Password at: https://myaccount.google.com/apppasswords');
+        console.error(
+          '- For Gmail, make sure to use an "App Password", not your regular password.',
+        );
+        console.error(
+          '- Create an App Password at: https://myaccount.google.com/apppasswords',
+        );
       }
     }
   }
@@ -54,7 +58,7 @@ export class MailService {
   }
 
   public async sendRegistrationNotification(
-    registration: RegistrationEntity
+    registration: RegistrationEntity,
   ): Promise<string> {
     try {
       const response = await this.transporter.sendMail({
@@ -63,11 +67,11 @@ export class MailService {
         subject: `${registration.isin} - tilføjet til SKATs positivliste`,
         html: this.compileHandlebarsTemplate('registration.hbs', {
           registration: registration,
-          currentYear: new Date().getFullYear()
+          currentYear: new Date().getFullYear(),
         }),
       });
       console.info('Email sent: ', response.response);
-      
+
       return response.response;
     } catch (error) {
       console.error('Error sending email: ', error);

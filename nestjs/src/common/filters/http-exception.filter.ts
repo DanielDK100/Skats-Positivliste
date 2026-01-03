@@ -16,9 +16,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
 
     // Check if this is an API call or a web request
-    const isApiCall = request.url.startsWith('/api/') || 
-                      request.url.includes('investment-companies') ||
-                      request.url.includes('top-registrations');
+    const isApiCall =
+      request.url.startsWith('/api/') ||
+      request.url.includes('investment-companies') ||
+      request.url.includes('top-registrations');
 
     if (isApiCall) {
       // For API calls, return JSON

@@ -54,7 +54,8 @@ const DataTableManager = {
   async init() {
     const table = document.querySelector("#table");
     if (!table) return;
-    const { columns, values } = await fetchJson("/investment-companies");
+    const { data: { columns, values } } = await fetchJson("/investment-companies");
+    
     const transformedColumns = columns.map((item) => ({ data: item, title: item }));
     const dataTableOptions = {
       columnControl: [
@@ -123,7 +124,7 @@ const ChartManager = {
   async init() {
     const chartElement = document.querySelector("#chart");
     if (!chartElement) return;
-    const topRegistrations = await fetchJson("/top-registrations");
+    const { data: topRegistrations } = await fetchJson("/top-registrations");
     const isinValues = topRegistrations.map((item) => item.isin);
     const amountValues = topRegistrations.map((item) => item.amount);
     const chartOptions = {

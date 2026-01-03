@@ -12,7 +12,7 @@ export class RegistrationService {
   ) {}
 
   public async fetchUnnotifiedRegistrations(
-    isin: string
+    isin: string,
   ): Promise<RegistrationEntity[]> {
     return await this.registrationRepository.find({
       where: {
@@ -36,7 +36,7 @@ export class RegistrationService {
       (registration) => ({
         isin: registration.isin,
         amount: registration.registrationCount,
-      })
+      }),
     );
 
     topRegistrations.sort((a, b) => a.amount - b.amount);
@@ -45,7 +45,7 @@ export class RegistrationService {
   }
 
   public async markRegistrationAsNotified(
-    registration: RegistrationEntity
+    registration: RegistrationEntity,
   ): Promise<void> {
     await this.registrationRepository.save({
       ...registration,
@@ -55,7 +55,7 @@ export class RegistrationService {
   }
 
   public async resetIsNotified(
-    registration: RegistrationEntity
+    registration: RegistrationEntity,
   ): Promise<void> {
     const registrationToUpdate = await this.registrationRepository.findOne({
       where: {

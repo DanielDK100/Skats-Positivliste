@@ -1,4 +1,10 @@
-import { Injectable, LoggerService as NestLoggerService, LogLevel, Scope, Optional } from '@nestjs/common';
+import {
+  Injectable,
+  LoggerService as NestLoggerService,
+  LogLevel,
+  Scope,
+  Optional,
+} from '@nestjs/common';
 import { ENV_CONSTANTS } from '../constants/env.constants';
 
 /**
@@ -22,8 +28,8 @@ export class LoggerService implements NestLoggerService {
    */
   private getLogLevels(): LogLevel[] {
     const isProduction = ENV_CONSTANTS.NODE_ENV === 'production';
-    return isProduction 
-      ? ['error', 'warn', 'log'] 
+    return isProduction
+      ? ['error', 'warn', 'log']
       : ['error', 'warn', 'log', 'debug', 'verbose'];
   }
 

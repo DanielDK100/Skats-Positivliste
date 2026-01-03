@@ -25,18 +25,19 @@ export class TransformInterceptor<T>
   ): Observable<Response<T>> {
     const ctx = context.switchToHttp();
     const request = ctx.getRequest();
-    
+
     // Skip transformation for view rendering and static assets
-    const isApiCall = request.url.startsWith('/api/') ||
-                      request.url.includes('investment-companies') ||
-                      request.url.includes('top-registrations');
-    
+    const isApiCall =
+      request.url.startsWith('/api/') ||
+      request.url.includes('investment-companies') ||
+      request.url.includes('top-registrations');
+
     if (!isApiCall) {
       return next.handle();
     }
-    
+
     return next.handle().pipe(
-      map(data => ({
+      map((data) => ({
         data,
         meta: {
           timestamp: new Date().toISOString(),

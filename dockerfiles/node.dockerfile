@@ -2,12 +2,16 @@ FROM node:lts
 
 WORKDIR /app
 
-COPY ./src/package.json .
+# Copy package.json and package-lock.json for dependency installation
+COPY ./nestjs/package.json ./
+COPY ./nestjs/package-lock.json ./
 
 RUN npm install
 
-COPY ./src .
+# Copy the rest of the source code
+COPY ./nestjs/src ./
 
-EXPOSE 8181
+EXPOSE 3001
 
-CMD [ "npm", "run", "dev" ]
+# Run NestJS in development mode (hot reload)
+CMD [ "npm", "run", "start:dev" ]

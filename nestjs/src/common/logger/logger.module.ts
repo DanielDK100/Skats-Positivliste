@@ -6,7 +6,7 @@ import { LoggerService } from './logger.service';
     {
       provide: LoggerService,
       useValue: new LoggerService(),
-    }
+    },
   ],
   exports: [LoggerService],
 })

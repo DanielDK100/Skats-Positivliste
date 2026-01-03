@@ -29,7 +29,7 @@ export class CronService {
   ) {
     this.logger = loggerService;
     this.logger.setContext(CronService.name);
-    
+
     // Run jobs immediately in development mode
     if (this.configService.get('NODE_ENV') === 'development') {
       this.debugCronJobs();
@@ -60,21 +60,25 @@ export class CronService {
 
     // Generate a random delay within the specified range
     return Math.floor(
-      Math.random() * (maxMilliseconds - minMilliseconds) + minMilliseconds
+      Math.random() * (maxMilliseconds - minMilliseconds) + minMilliseconds,
     );
   }
 
   // Download Skats Positivliste job
   private async runDownloadJob(): Promise<void> {
     try {
-      const success = await this.skatsPositivlisteService.downloadPositivliste();
+      const success =
+        await this.skatsPositivlisteService.downloadPositivliste();
       if (success) {
         this.logger.log('Successfully downloaded Skats Positivliste');
       } else {
         this.logger.warn('Failed to download Skats Positivliste');
       }
     } catch (error) {
-      this.logger.error(`Error downloading Skats Positivliste: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error downloading Skats Positivliste: ${error.message}`,
+        error.stack,
+      );
     }
   }
 
@@ -83,26 +87,33 @@ export class CronService {
     try {
       const filePath = this.skatsPositivlisteService.getFilePath();
       const xlsxData = await this.xlsxService.fetchXlsxFileData(filePath);
-      
+
       if (!xlsxData.values.length) {
-        this.logger.warn('No data found in XLSX file. Skipping notification job.');
+        this.logger.warn(
+          'No data found in XLSX file. Skipping notification job.',
+        );
         return;
       }
 
       for (const row of xlsxData.values) {
         const mappedRow: XlsxDataRow = {
-          isin: row['ISIN-kode'],
+          isin: row['ISIN-kode/-Code'],
         };
 
         if (!mappedRow.isin || typeof mappedRow.isin !== 'string') {
-          this.logger.error("Missing or invalid 'ISIN-kode'");
+          this.logger.error(
+            "Missing or invalid 'ISIN code' in row. Skipping this row.",
+          );
           continue;
         }
 
         await this.processRegistrations(mappedRow);
       }
     } catch (error) {
-      this.logger.error(`Error in notification job: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error in notification job: ${error.message}`,
+        error.stack,
+      );
     }
   }
 
@@ -112,18 +123,28 @@ export class CronService {
 
     // Only log if we found registrations to notify
     if (registrationsNotSent.length > 0) {
-      this.logger.debug(`Found ${registrationsNotSent.length} unnotified registrations for ISIN ${row.isin}`);
+      this.logger.debug(
+        `Found ${registrationsNotSent.length} unnotified registrations for ISIN ${row.isin}`,
+      );
     }
-    
+
     for (const registration of registrationsNotSent) {
       try {
-        const mail = await this.mailService.sendRegistrationNotification(registration);
+        const mail =
+          await this.mailService.sendRegistrationNotification(registration);
         if (parseInt(mail.slice(0, 3)) === StatusCode.OK) {
-          await this.registrationService.markRegistrationAsNotified(registration);
-          this.logger.log(`Successfully sent notification for ISIN ${registration.isin} to ${registration.email}`);
+          await this.registrationService.markRegistrationAsNotified(
+            registration,
+          );
+          this.logger.log(
+            `Successfully sent notification for ISIN ${registration.isin} to ${registration.email}`,
+          );
         }
       } catch (error) {
-        this.logger.error(`Failed to send notification for ISIN ${registration.isin}: ${error.message}`, error.stack);
+        this.logger.error(
+          `Failed to send notification for ISIN ${registration.isin}: ${error.message}`,
+          error.stack,
+        );
         // We don't mark as notified if sending fails, so it can be retried later
       }
     }

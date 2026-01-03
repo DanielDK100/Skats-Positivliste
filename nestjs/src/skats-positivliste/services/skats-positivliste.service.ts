@@ -29,7 +29,7 @@ export class SkatsPositivlisteService {
 
   constructor(
     private configService: ConfigService,
-    loggerService: LoggerService
+    loggerService: LoggerService,
   ) {
     this.logger = loggerService;
     this.logger.setContext(SkatsPositivlisteService.name);
@@ -40,21 +40,25 @@ export class SkatsPositivlisteService {
    */
   public async downloadPositivliste(): Promise<boolean> {
     try {
-      const url = this.configService.get<string>('SKAT_URL') + 
+      const url =
+        this.configService.get<string>('SKAT_URL') +
         'erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa';
-      
+
       this.logger.debug(`Fetching data from: ${url}`);
       const data = await this.fetchData(url);
-      
+
       const element = this.fetchElement(data);
       if (!element) {
         this.logger.warn('No download link found on SKAT website');
         return false;
       }
-      
+
       return await this.downloadFile(element);
     } catch (error) {
-      this.logger.error(`Failed to download positivliste: ${error.message}`, error.stack);
+      this.logger.error(
+        `Failed to download positivliste: ${error.message}`,
+        error.stack,
+      );
       return false;
     }
   }
@@ -118,39 +122,48 @@ export class SkatsPositivlisteService {
 
       this.logger.debug(`Using User-Agent: ${options.headers['User-Agent']}`);
       const url = this.configService.get('SKAT_URL') + element.href;
-      
-      https.get(url, options, (response) => {
-        if (response.statusCode !== 200) {
-          this.logger.error(`Download request failed with status: ${response.statusCode}`);
-          resolve(false);
-          return;
-        }
 
-        const fileStream = fs.createWriteStream(this.filePath);
-
-        response.pipe(fileStream);
-        
-        fileStream.on('error', (err) => {
-          this.logger.error(`Error writing file: ${err.message}`, err.stack);
-          resolve(false);
-        });
-        
-        fileStream.on('finish', () => {
-          const currentDate = new Date();
-          try {
-            fs.utimesSync(this.filePath, currentDate, currentDate);
-            fileStream.close();
-            this.logger.log(`Download finished successfully: ${currentDate.toLocaleString('da-DK')}`);
-            resolve(true);
-          } catch (error) {
-            this.logger.error(`Error finalizing file: ${error.message}`, error.stack);
+      https
+        .get(url, options, (response) => {
+          if (response.statusCode !== 200) {
+            this.logger.error(
+              `Download request failed with status: ${response.statusCode}`,
+            );
             resolve(false);
+            return;
           }
+
+          const fileStream = fs.createWriteStream(this.filePath);
+
+          response.pipe(fileStream);
+
+          fileStream.on('error', (err) => {
+            this.logger.error(`Error writing file: ${err.message}`, err.stack);
+            resolve(false);
+          });
+
+          fileStream.on('finish', () => {
+            const currentDate = new Date();
+            try {
+              fs.utimesSync(this.filePath, currentDate, currentDate);
+              fileStream.close();
+              this.logger.log(
+                `Download finished successfully: ${currentDate.toLocaleString('da-DK')}`,
+              );
+              resolve(true);
+            } catch (error) {
+              this.logger.error(
+                `Error finalizing file: ${error.message}`,
+                error.stack,
+              );
+              resolve(false);
+            }
+          });
+        })
+        .on('error', (err) => {
+          this.logger.error(`HTTP request error: ${err.message}`, err.stack);
+          resolve(false);
         });
-      }).on('error', (err) => {
-        this.logger.error(`HTTP request error: ${err.message}`, err.stack);
-        resolve(false);
-      });
     });
   }
 }
