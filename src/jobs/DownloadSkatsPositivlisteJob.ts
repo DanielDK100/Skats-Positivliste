@@ -26,7 +26,7 @@ class DownloadSkatsPositivlisteJob implements JobInterface {
 
   private fetchElement(body: string): HTMLAnchorElement | null {
     const dom = new JSDOM(body);
-    const downloadLink: HTMLAnchorElement | null = dom.window.document.querySelector("a[title^='ABIS List' i]");
+    const downloadLink: HTMLAnchorElement | null = dom.window.document.querySelector("a[href$='.xlsx'][title*='ABIS']");
 
     return downloadLink;
   }
@@ -80,7 +80,7 @@ class DownloadSkatsPositivlisteJob implements JobInterface {
         "erhverv/ekapital/vaerdipapirer/beviser-og-aktier-i-investeringsforeninger-og-selskaber-ifpa"
     );
     const element = this.fetchElement(data);
-
+    
     if (!element) {
       return;
     }
