@@ -94,7 +94,7 @@ const DataTableManager = {
           responsivePriority: 3,
           targets: 1,
           render: (data) => /^[A-Z]{2}[0-9A-Z]{10}$/.test(data.trim())
-            ? `<a href='${buildMorningstarSearchUrl(data)}' rel='noreferrer' target='_blank' title='Morningstar.dk'>${data.trim()}</a>`
+            ? `<a href='${buildMorningstarSearchUrl(data)}' rel='noreferrer' target='_blank' title='Morningstar.com'>${data.trim()}</a>`
             : data
         },
       ],
