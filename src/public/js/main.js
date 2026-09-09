@@ -94,7 +94,7 @@ const DataTableManager = {
           responsivePriority: 3,
           targets: 1,
           render: (data) => /^[A-Z]{2}[0-9A-Z]{10}$/.test(data.trim())
-            ? `<a href='https://morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=${data.trim()}' rel='noreferrer' target='_blank' title='Morningstar.dk'>${data.trim()}</a>`
+            ? `<a href='${buildMorningstarSearchUrl(data)}' rel='noreferrer' target='_blank' title='Morningstar.dk'>${data.trim()}</a>`
             : data
         },
       ],
@@ -162,7 +162,7 @@ const ChartManager = {
       if (res.length > 0) {
         const label = chart.data.labels[res[0].index];
         window.open(
-          `https://morningstar.dk/dk/funds/SecuritySearchResults.aspx?search=${label}`,
+          buildMorningstarSearchUrl(label),
           "_blank"
         );
       }
@@ -175,6 +175,11 @@ const fetchJson = async (url) => {
   const response = await fetch(url);
   return await response.json();
 };
+
+const buildMorningstarSearchUrl = (query) =>
+  `https://global.morningstar.com/en-nd/search/securities?query=${encodeURIComponent(
+    query.trim()
+  )}`;
 
 // Registration form handler
 const submitRegistration = () => {
